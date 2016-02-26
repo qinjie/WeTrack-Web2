@@ -1,14 +1,27 @@
 import  requests
 import  json
-import blescan
 import sys
+
+import blescan
+import getSerial
 
 import bluetooth._bluetooth as bluez
 
+def convertUuid(uuid) :
+    uuid = uuid.lower()
+    result = ""
+    for a in uuid :
+        if (a != '-') :
+            result += a
+    return result
+
+        
 if __name__ == '__main__' :
-    url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/user/login'
-    post_data = {'username':'admin', 'password':'qw1234er'}
+    url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/locator/login'
+    serial_number = getSerial.getserial()
+    post_data = {'serial_number':serial_number}
     get_response = requests.post(url=url,data=post_data)
+    print get_response.text
     listReceiveBeacon = []
     listReceiveBeaconID = []
     result = json.loads(get_response.text)
@@ -29,8 +42,11 @@ if __name__ == '__main__' :
     blescan.hci_le_set_scan_parameters(sock)
     blescan.hci_enable_le_scan(sock)
     if (result["result"] == "correct") :
+        userID = result['user_id']
         while True:
-            listReceiveBeacon = blescan.parse_events(sock, 100)
+            listReceiveBeacon = []
+            listReceiveBeaconID = []
+            listReceiveBeacon = blescan.parse_events(sock, 10)
             print
             "----------"
             headers = {'Authorization': '%s' % auth}
@@ -41,15 +57,17 @@ if __name__ == '__main__' :
             tempID = []
 
             for a in listBeacon :
-                temp.append(a['uuid'] + " " + str(a['major']) + " " + str(a['minor']))
+                temp.append(convertUuid((a['uuid'])) + " " + str(a['major']) + " " + str(a['minor']))
                 tempID.append(a['id'])
-
+            #print temp
             for a in listReceiveBeacon :
-                t = a['uuid'] + " " + str(a['major']) + " " + str(a['minor'])
+                t = str(a['uuid']) + " " + str(a['major']) + " " + str(a['minor'])
+                
                 if (t in temp) :
                     index = temp.index(t)
                     listReceiveBeaconID.append(tempID[index])
-
+                    
+            #print listReceiveBeaconID
             url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/resident/missing?expand=beacons,relatives,locations'
 
             get_response = requests.get(url, headers=headers)
@@ -58,7 +76,6 @@ if __name__ == '__main__' :
             url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/location-history/new'
             for a in listMissingResident :
                 t = a['beacons']
-                userID = a['id']
                 for b in t :
                     ResidentMissingBeaconID = b['id']
                     if ResidentMissingBeaconID in listReceiveBeaconID :
@@ -66,6 +83,9 @@ if __name__ == '__main__' :
                                         "beacon_id" : ResidentMissingBeaconID,
                                         "user_id" : userID
                                      }
+                        print(post_data)
+                        get_response = requests.post(url = url, data = post_data, headers = headers)
+                        print(get_response.text)
 
 
     else :

@@ -21,6 +21,6 @@ blescan.hci_enable_le_scan(sock)
 while True:
 	returnedList = blescan.parse_events(sock, 10)
 	print "----------"
-	for beacon in returnedList:
-		print beacon
+	for a in returnedList :
+                print a
 
