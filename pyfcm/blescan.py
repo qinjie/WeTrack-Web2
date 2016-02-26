@@ -174,12 +174,16 @@ def parse_events(sock, loop_count=100):
 		    # Adstring += "%i" % struct.unpack("b", pkt[report_pkt_offset -1])
 
 		    #print "\tAdstring=", Adstring
+		    uuid = returnstringpacket(pkt[report_pkt_offset -22: report_pkt_offset - 6])
+		    major = "%i" % returnnumberpacket(pkt[report_pkt_offset -6: report_pkt_offset - 4])
+		    minor = "%i" % returnnumberpacket(pkt[report_pkt_offset -4: report_pkt_offset - 2])
+		    MACaddress = packed_bdaddr_to_string(pkt[report_pkt_offset + 3:report_pkt_offset + 9])
  		    myFullList.append(
 				{
-					'uuid' : printpacket(pkt[report_pkt_offset -22: report_pkt_offset - 6]), 
-					'major' : printpacket(pkt[report_pkt_offset -6: report_pkt_offset - 4]), 
-					'minor' : printpacket(pkt[report_pkt_offset -4: report_pkt_offset - 2]), 
-					'MACaddress' : packed_bdaddr_to_string(pkt[report_pkt_offset + 3:report_pkt_offset + 9]), 
+					'uuid' : uuid,
+					'major' : major,
+					'minor' : minor, 
+					'MACaddress' : MACaddress
 				}
 			)
                 done = True
