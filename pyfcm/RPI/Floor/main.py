@@ -53,10 +53,12 @@ if __name__ == '__main__' :
         if (result["result"] == "correct") :
             userID = result['user_id']
             while True:
+                
                 if (connection.internet_on() == False):
                     print("No network connection, restart after 1 hour!")
                     time.sleep(time_sleep_after_no_connection)
                     continue
+               
                 listReceiveBeacon = []
                 listReceiveBeaconID = []
                 listReceiveBeacon = blescan.parse_events(sock, 10)
