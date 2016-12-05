@@ -1,10 +1,10 @@
-from urllib import request
+import urllib2
 
 def internet_on():
     try:
-        request.urlopen('http://128.199.93.67', timeout=1)
+        urllib2.urlopen('http://128.199.93.67', timeout=1)
         return True
-    except request.URLError as err:
+    except urllib2.URLError as err:
         return False
 
 if __name__ == "__main__" :
