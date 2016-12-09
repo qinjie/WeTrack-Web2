@@ -42,12 +42,10 @@ if __name__ == '__main__':
         dev_id = 0
         try:
             sock = bluez.hci_open_dev(dev_id)
-            print
-            "ble thread started"
+            print "ble thread started"
 
         except:
-            print
-            "error accessing bluetooth device..."
+            print "error accessing bluetooth device..."
             sys.exit(1)
 
         blescan.hci_le_set_scan_parameters(sock)
@@ -63,8 +61,7 @@ if __name__ == '__main__':
                 listReceiveBeacon = []
                 listReceiveBeaconID = []
                 listReceiveBeacon = blescan.parse_events(sock, 10)
-                print
-                "----------"
+                print "----------"
 
                 headers = {'Authorization': '%s' % auth}
                 url = "http://128.199.93.67/WeTrack/api/web/index.php/v1/location-history/alive"
@@ -80,7 +77,9 @@ if __name__ == '__main__':
                 temp = []
                 tempID = []
 
+
                 for a in listBeacon:
+                    #print(a['uuid'], " ", a['major'], " ", a['minor'])
                     temp.append(convertUuid((a['uuid'])) + " " + str(a['major']) + " " + str(a['minor']))
                     tempID.append(a['id'])
                 # print temp
