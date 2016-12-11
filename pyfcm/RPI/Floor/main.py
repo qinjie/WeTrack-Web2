@@ -31,8 +31,7 @@ if __name__ == '__main__':
         serial_number = getSerial.getserial()
         post_data = {'serial_number': serial_number}
         get_response = requests.post(url=url, data=post_data)
-        print
-        get_response.text
+
         listReceiveBeacon = []
         listReceiveBeaconID = []
         result = json.loads(get_response.text)
@@ -61,7 +60,9 @@ if __name__ == '__main__':
                 listReceiveBeacon = []
                 listReceiveBeaconID = []
                 listReceiveBeacon = blescan.parse_events(sock, 10)
-                print "----------"
+
+                print ("----------")
+
 
                 headers = {'Authorization': '%s' % auth}
                 url = "http://128.199.93.67/WeTrack/api/web/index.php/v1/location-history/alive"
