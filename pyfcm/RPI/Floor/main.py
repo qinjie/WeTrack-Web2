@@ -71,6 +71,11 @@ if __name__ == '__main__':
                 }
                 get_response = requests.post(url=url, data=post_data, headers=headers)
 
+		if (connection.internet_on() == False):
+                    print("No network connection, restart after 1 hour!")
+                    time.sleep(time_sleep_after_no_connection)
+                    continue
+
                 url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/beacon?expand=resident,location,locationHistory'
                 lBc = requests.get(url, headers=headers)
                 listBeacon = json.loads(lBc.text)
@@ -96,6 +101,11 @@ if __name__ == '__main__':
                 get_response = requests.get(url, headers=headers)
                 listMissingResident = json.loads(get_response.text)
                 # print(listMissingResident)
+		if (connection.internet_on() == False):
+                    print("No network connection, restart after 1 hour!")
+                    time.sleep(time_sleep_after_no_connection)
+                    continue
+
                 url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/location-history/new'
                 for a in listMissingResident:
                     t = a['beacons']
