@@ -9,7 +9,7 @@ import connection
 
 import bluetooth._bluetooth as bluez
 
-time_sleep_after_no_connection = 10
+time_sleep_after_no_connection = 100
 
 
 def convertUuid(uuid):
