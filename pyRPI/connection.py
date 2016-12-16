@@ -1,11 +1,16 @@
 import urllib2
+import requests
 
 def internet_on():
     try:
-        urllib2.urlopen('http://google.com', timeout=2)
-        return True
-    except urllib2.URLError as err:
+        reponse = requests.get('http://128.199.93.67')
+        #urllib2.urlopen('http://google.com', timeout=2)
+        #return True
+    except Exception as e :
+        print e
         return False
+    #urllib2.URLError as err:
+    return True
 
 if __name__ == "__main__" :
     print(internet_on())
