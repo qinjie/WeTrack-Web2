@@ -7,8 +7,8 @@ def internet_on():
         #urllib2.urlopen('http://google.com', timeout=2)
         #return True
     except Exception as e :
-        print e
         return False
+        print e
     #urllib2.URLError as err:
     return True
 

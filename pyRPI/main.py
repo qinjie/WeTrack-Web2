@@ -9,7 +9,7 @@ import connection
 
 import bluetooth._bluetooth as bluez
 
-time_sleep_after_no_connection = 100
+time_sleep_after_no_connection = 10
 
 
 def convertUuid(uuid):
@@ -23,7 +23,8 @@ def convertUuid(uuid):
 
 if __name__ == '__main__':
     while (1):
-        if (connection.internet_on() == False):
+        
+        while (connection.internet_on() == False):
             print("No network connection, restart after 1 hour!")
             time.sleep(time_sleep_after_no_connection)
             continue
@@ -52,7 +53,7 @@ if __name__ == '__main__':
         if (result["result"] == "correct"):
             userID = result['user_id']
             while True:
-                if (connection.internet_on() == False):
+                while (connection.internet_on() == False):
                     print("No network connection, restart after 1 hour!")
                     time.sleep(time_sleep_after_no_connection)
                     continue
@@ -72,7 +73,7 @@ if __name__ == '__main__':
                 }
                 get_response = requests.post(url=url, data=post_data, headers=headers)
 
-		if (connection.internet_on() == False):
+		while (connection.internet_on() == False):
                     print("No network connection, restart after 1 hour!")
                     time.sleep(time_sleep_after_no_connection)
                     continue
@@ -98,11 +99,14 @@ if __name__ == '__main__':
 
                 # print listReceiveBeaconID
                 url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/resident/missing?expand=beacons,relatives,locations'
-
+                while (connection.internet_on() == False):
+                    print("No network connection, restart after 1 hour!")
+                    time.sleep(time_sleep_after_no_connection)
+                    continue
                 get_response = requests.get(url, headers=headers)
                 listMissingResident = json.loads(get_response.text)
                 # print(listMissingResident)
-		if (connection.internet_on() == False):
+		while (connection.internet_on() == False):
                     print("No network connection, restart after 1 hour!")
                     time.sleep(time_sleep_after_no_connection)
                     continue
