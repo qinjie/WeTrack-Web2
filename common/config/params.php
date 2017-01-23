@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'google_geocoding_key' => 'AIzaSyCUg5fQzFfExjTI10jrB6vOBQYMW7cGFoA',
     'adminEmail' => 'mark.qj@gmail.com',
     'supportEmail' => 'mark.qj@gmail.com',
     'user.passwordResetTokenExpire' => 86400,   // 1 days

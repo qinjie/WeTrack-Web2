@@ -9,11 +9,13 @@
 namespace common\components;
 
 
+use Yii;
+
 class Utils
 {
     public static function getAddressFromGPS($latitude, $longitude)
     {
-        $key_api = 'AIzaSyCUg5fQzFfExjTI10jrB6vOBQYMW7cGFoA';
+        $key_api = Yii::$app->params['google_geocoding_key'];
         $request_url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="
             . $latitude . "," . $longitude . "&key=" . $key_api;
 
