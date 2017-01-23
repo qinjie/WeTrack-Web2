@@ -90,18 +90,18 @@ $this->title = 'We Track';
     $row = $count;
     foreach ($model as $m)
     {
-        $current = new DateTime('now');
-        $time = new DateTime($m->created_at);
-        $diff = $current->diff($time);
-        $minutes = $diff->days * 24 * 60;
-        $minutes += $diff->h * 60;
-        $minutes += $diff->i;
-        if ($minutes < 2*60) $status = '<online/>';
-        else {
-            if ($minutes > 24*60) $status = '<offline/>';
-            else $status = '<pending/>';
-        }
         foreach ($m->latestLocation as $key => $value){
+            $current = new DateTime('now');
+            $time = new DateTime($value->created_at);
+            $diff = $current->diff($time);
+            $minutes = $diff->days * 24 * 60;
+            $minutes += $diff->h * 60;
+            $minutes += $diff->i;
+            if ($minutes < 2*60) $status = '<online/>';
+            else {
+                if ($minutes > 24*60) $status = '<offline/>';
+                else $status = '<pending/>';
+            }
             $diff_time = $diff->format('%d Days %h Hours %i Minutes') . ' ago';
             $link = "../web/location-history/view?id=" . $value->id;
             $link_resident = "../web/resident/view?id=" . $m->id;
