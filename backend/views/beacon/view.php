@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => "Resident Name",
                 'attribute' => 'resident_id',
                 'format' => 'html',
-                'value' => Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->resident_id])
+                'value' => Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->resident->id])
 
             ],
 //            "resident.fullname",
@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'user_id',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return Html::a($data->resident->fullname, ['/resident/view', 'id' => $data->user_id]);
+                    return Html::a($data->beacon->resident->fullname, ['/resident/view', 'id' => $data->beacon->resident->id]);
                 },
 
 
