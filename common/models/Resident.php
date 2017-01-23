@@ -94,7 +94,17 @@ class Resident extends \yii\db\ActiveRecord
     public function getLocations()
     {
         return $this->hasMany(Location::className(), ['beacon_id' => 'id'])->via('beacons')
-            ->orderBy(['id'=>SORT_DESC]);
+            ->orderBy(['created_at'=>SORT_DESC]);
+    }
+
+    /**
+     * @return \api\common\models\Location
+     * Return latest locations of all assigned beacons
+     */
+    public function getLatestLocation()
+    {
+        return $this->hasMany(Location::className(), ['beacon_id' => 'id'])->via('beacons')
+            ->orderBy(['created_at'=>SORT_DESC])->limit(1);
     }
 
     /**

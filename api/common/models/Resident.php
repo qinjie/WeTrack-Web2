@@ -7,7 +7,7 @@ class Resident extends \common\models\Resident
 {
     public function extraFields()
     {
-        $new = ['beacons', 'relatives', 'locations', 'locationHistories'];
+        $new = ['beacons', 'relatives', 'locations', 'latestLocation', 'locationHistories'];
         $fields = array_merge(parent::fields(), $new);
         return $fields;
     }
