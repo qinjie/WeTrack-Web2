@@ -20,7 +20,7 @@ class LocationSearch extends Location
         return [
             [['id', 'beacon_id', 'locator_id', 'user_id'], 'integer'],
             [['longitude', 'latitude'], 'number'],
-            [['created_at'], 'safe'],
+            [['address', 'created_at'], 'safe'],
         ];
     }
 
@@ -66,6 +66,7 @@ class LocationSearch extends Location
             'user_id' => $this->user_id,
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
+            'address' => $this->address,
             'created_at' => $this->created_at,
         ]);
 

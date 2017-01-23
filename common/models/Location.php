@@ -13,6 +13,7 @@ use Yii;
  * @property integer $user_id
  * @property double $longitude
  * @property double $latitude
+ * @property double $address
  * @property string $created_at
  *
  * @property Beacon $beacon
@@ -38,7 +39,7 @@ class Location extends \yii\db\ActiveRecord
             [['beacon_id', 'longitude', 'latitude'], 'required'],
             [['beacon_id', 'locator_id', 'user_id'], 'integer'],
             [['longitude', 'latitude'], 'number'],
-            [['created_at'], 'safe'],
+            [['address', 'created_at'], 'safe'],
             [['beacon_id'], 'unique'],
             [['beacon_id'], 'exist', 'skipOnError' => true, 'targetClass' => Beacon::className(), 'targetAttribute' => ['beacon_id' => 'id']],
             [['locator_id'], 'exist', 'skipOnError' => true, 'targetClass' => Locator::className(), 'targetAttribute' => ['locator_id' => 'id']],
@@ -58,6 +59,7 @@ class Location extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'longitude' => 'Longitude',
             'latitude' => 'Latitude',
+            'address' => 'Address',
             'created_at' => 'Created At',
         ];
     }

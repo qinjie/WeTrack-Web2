@@ -14,4 +14,5 @@ class Location extends \common\models\Location
         $fields = parent::fields();
         return $fields;
     }
+
 }

@@ -20,7 +20,7 @@ class LocationHistorySearch extends LocationHistory
         return [
             [['id', 'beacon_id', 'locator_id', 'user_id'], 'integer'],
             [['longitude', 'latitude'], 'number'],
-            [['created_at'], 'safe'],
+            [['address', 'created_at'], 'safe'],
         ];
     }
 
@@ -72,6 +72,7 @@ class LocationHistorySearch extends LocationHistory
             'user_id' => $this->user_id,
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
+            'address' => $this->address,
             'created_at' => $this->created_at,
         ]);
 

@@ -13,6 +13,7 @@ use Yii;
  * @property integer $user_id
  * @property double $longitude
  * @property double $latitude
+ * @property double $address
  * @property string $created_at
  * *
  * @property Resident $resident
@@ -36,7 +37,7 @@ class LocationHistory extends \yii\db\ActiveRecord
             [['beacon_id', 'user_id', 'longitude', 'latitude'], 'required'],
             [['beacon_id', 'locator_id', 'user_id'], 'integer'],
             [['longitude', 'latitude'], 'number'],
-            [['created_at'], 'safe'],
+            [['address', 'created_at'], 'safe'],
         ];
     }
 
@@ -52,9 +53,11 @@ class LocationHistory extends \yii\db\ActiveRecord
             'user_id' => 'Resident ID',
             'longitude' => 'Longitude',
             'latitude' => 'Latitude',
+            'address' => 'Address',
             'created_at' => 'Created At',
         ];
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
