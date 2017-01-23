@@ -6,6 +6,7 @@ use common\models\Beacon;
 use common\models\form\ResetPasswordForm;
 use common\models\form\ResetPasswordRequestForm;
 use common\models\LocationHistory;
+use common\models\Location;
 use common\models\Resident;
 use common\models\User;
 use common\models\form\ChangePasswordForm;
@@ -79,15 +80,21 @@ class SiteController extends Controller
         $numberofBeacon = Beacon::find()->count();
         $numberofMissingResident = Resident::find()->where(['status' => 1])->count();
         $model = Resident::find()->where(['status' => 1])->all();
-        $location = LocationHistory::find()->groupBy(new \yii\db\Expression('user_id DESC'))->all();
-//        var_dump($location);
+        $count = count($model);
+        $locations = [];
 //        var_dump($model);
+        $cnt = 0;
+        foreach ($model as $m){
+            if ($m->latestLocation) $cnt++;
+
+
+        }
         return $this->render('index',[
             'resident' => $numberofResident,
             'beacon' => $numberofBeacon,
             'missing' => $numberofMissingResident,
             'model' => $model,
-            'location' => $location,
+            'count' => $cnt
         ]);
     }
 

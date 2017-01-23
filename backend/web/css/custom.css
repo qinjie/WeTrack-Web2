@@ -738,7 +738,7 @@ input.cmn-toggle-yes-no:checked + label:after {
 }
 .profile h3:hover {
     color: #0000aa;
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 .profile h3 {
     font-size: 12px !important;

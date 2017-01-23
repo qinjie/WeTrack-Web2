@@ -39,7 +39,7 @@ class Resident extends \yii\db\ActiveRecord
         return [
             [['fullname', 'dob', 'nric', 'status'], 'required'],
             [['dob', 'created_at'], 'safe'],
-            [['image_path', 'thumbnail_path'], 'string'],
+            [['image_path', 'thumbnail_path', 'remark'], 'string'],
             [['status'], 'integer'],
             [['fullname', 'nric'], 'string', 'max' => 255],
         ];
@@ -59,6 +59,7 @@ class Resident extends \yii\db\ActiveRecord
             'thumbnail_path' => 'Thumbnail Path',
             'status' => 'Status',
             'created_at' => 'Created At',
+            'remark' => 'Remark',
         ];
     }
 

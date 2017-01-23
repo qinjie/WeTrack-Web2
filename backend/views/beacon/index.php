@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'value' => 'resident.fullname',
                 'format' => 'html',
                 'value' => function($model){
-                    return Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->resident_id]);
+                    return Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->resident->id]);
                 }
             ],
 
@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
 
             ],
-             'created_at',
+            'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
         flag = true;
 
         //if (cb.checked)
-            //alert(cb.checked);
+        //alert(cb.checked);
         var form = $(this);
         $status = (cb.checked)? 0: 1;
         $.ajax({

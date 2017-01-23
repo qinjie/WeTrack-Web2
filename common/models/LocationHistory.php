@@ -50,7 +50,7 @@ class LocationHistory extends \yii\db\ActiveRecord
             'id' => 'ID',
             'beacon_id' => 'Beacon ID',
             'locator_id' => 'Locator ID',
-            'user_id' => 'Resident ID',
+            'user_id' => 'User ID',
             'longitude' => 'Longitude',
             'latitude' => 'Latitude',
             'address' => 'Address',
@@ -61,8 +61,23 @@ class LocationHistory extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResident()
+    public function getBeacon()
     {
-        return $this->hasOne(Resident::className(), ['id' => 'user_id']);
+
+        return $this->hasOne(Beacon::className(), ['id' => 'beacon_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocator()
+    {
+        return $this->hasOne(Locator::className(), ['id' => 'locator_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'user_id',
                 'format' => 'raw',
                 'value' =>
-                    Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->user_id])
+                    Html::a($model->beacon->resident->fullname, ['/resident/view', 'id' => $model->beacon->resident->id])
 
 
             ],
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'value' => $address,
                 'format' => 'raw',
                 'value' =>
-                     Html::a($address, $url)
+                    Html::a($address, $url)
 //                htmlEncode
 
 
@@ -70,6 +70,6 @@ $this->params['breadcrumbs'][] = $this->title;
         frameborder="0" style="border:0"
         src=' . $place . ' allowfullscreen>
         </iframe>'
-        ?>
+    ?>
 
 </div>

@@ -38,14 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'user_id',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return Html::a($data->resident->fullname, ['/resident/view', 'id' => $data->user_id]);
-                 },
+                    return Html::a($data->beacon->resident->fullname, ['/resident/view', 'id' => $data->beacon->resident->id]);
+                },
 
 
             ],
             'longitude',
-             'latitude',
-             'created_at',
+            'latitude',
+            'created_at',
 
             [
                 'class' => 'yii\grid\ActionColumn',
