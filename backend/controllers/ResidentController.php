@@ -74,25 +74,32 @@ class ResidentController extends Controller
     {
         $model = $this->findModel($id);
         $searchModel = new LocationHistorySearch();
-        $query = LocationHistory::find()->where(['user_id' => $id])->limit(5);
+//        $query = LocationHistory::find()->where(['beacon_id' => $model->beacons])->limit(5);
+        $locationHistories = $model->getLocationHistories(5);
+
         $beacon = Beacon::find()->where(['resident_id' => $id]);
         $beaconList = new ActiveDataProvider([
            'query' => $beacon
         ]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+        $locationList = new ActiveDataProvider([
+            'query' => $locationHistories,
             'pagination' => false,
-            'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_DESC,
-                ]
-            ]
         ]);
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => $query,
+//            'pagination' => false,
+//            'sort' => [
+//                'defaultOrder' => [
+//                    'created_at' => SORT_DESC,
+//                ]
+//            ]
+//        ]);
+//        var_dump($d);
         return $this->render('view', [
             'model' => $model,
 //            'location_history' => $location_history,
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $locationList,
             'beacons' => $beaconList
         ]);
     }

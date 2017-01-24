@@ -30,10 +30,14 @@ use yii\widgets\ActiveForm;
             'options' => ['accept' => 'image/*'],
             'pluginOptions' => [
                 'showUpload' => false,
-                'initialPreview'=>[
-                    "../../" . $model->image_path,
-                ],
-                'initialPreviewAsData'=>true,
+//                'initialPreview'=> function($data){
+//                    $res = ("../../" . $data->image_path);
+//                    $no_img = ("../../uploads/human_images/no_image.png");
+//                    return $res;
+//                    return (!$data->image_path) ? $res : $no_img;
+//
+//                },
+//                'initialPreviewAsData'=>true,
 //                'overwriteInitial'=>false,
                 'maxFileSize'=>2800
             ]
