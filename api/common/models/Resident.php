@@ -21,11 +21,11 @@ class Resident extends \common\models\Resident
             'nric',
             'status',
             'image_path' => function(){
-                if ($this->hide_photo) return "uploads/human_images/no_image.png";
+                if ($this->hide_photo) return "";
                 return $this->image_path;
             },
             'thumbnail_path' => function(){
-                if ($this->hide_photo) return "uploads/human_images/thumbnail_no_image.png";
+                if ($this->hide_photo) return "";
                 return $this->thumbnail_path;
             }
 
