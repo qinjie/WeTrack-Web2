@@ -85,16 +85,6 @@ class ResidentController extends Controller
             'query' => $locationHistories,
             'pagination' => false,
         ]);
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $query,
-//            'pagination' => false,
-//            'sort' => [
-//                'defaultOrder' => [
-//                    'created_at' => SORT_DESC,
-//                ]
-//            ]
-//        ]);
-//        var_dump($d);
         return $this->render('view', [
             'model' => $model,
 //            'location_history' => $location_history,

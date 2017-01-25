@@ -85,6 +85,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
 
             ],
+            'uuid',
+            'major',
+            'minor',
             [
                 'attribute' => 'status',
                 'label' => 'Status',
@@ -98,8 +101,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <?php if ($model->status == 1) {?>
     <h1><?= Html::encode("Last Location") ?></h1>
-    <?= GridView::widget([
+    <?=  GridView::widget([
         'dataProvider' => $dataProvider,
 //        'filterModel' => $searchModel,
         'columns' => [
@@ -119,6 +123,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    <?php
+    }
+    ?>
+
 
 
 </div>
