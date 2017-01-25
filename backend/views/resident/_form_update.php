@@ -30,6 +30,8 @@ use yii\widgets\ActiveForm;
             'options' => ['accept' => 'image/*'],
             'pluginOptions' => [
                 'showUpload' => false,
+                'initialPreview'=> "../../" . $model->image_path,
+                'initialPreviewAsData'=>true,
 //                'overwriteInitial'=>false,
                 'maxFileSize'=>2800
             ]
@@ -37,8 +39,7 @@ use yii\widgets\ActiveForm;
     ) ?>
 
 
-    <?php
-    $data = [
+    <?php $data = [
         '0' => 'Available',
         '1' => 'Missing'
     ];

@@ -15,6 +15,8 @@ use Yii;
  * @property string $thumbnail_path
  * @property integer $status
  * @property string $created_at
+ * @property string $remark
+ * @property integer $hide_photo
  *
  * @property Beacon[] $beacons
  * @property UserResident[] $userResidents
@@ -40,7 +42,8 @@ class Resident extends \yii\db\ActiveRecord
             [['fullname', 'dob', 'nric', 'status'], 'required'],
             [['dob', 'created_at'], 'safe'],
             [['image_path', 'thumbnail_path', 'remark'], 'string'],
-            [['status'], 'integer'],
+            [['status', 'hide_photo'], 'integer'],
+            [['image_path'],'default','value'=>'uploads/human_images/no_image.png'],
             [['fullname', 'nric'], 'string', 'max' => 255],
         ];
     }
@@ -55,13 +58,17 @@ class Resident extends \yii\db\ActiveRecord
             'fullname' => 'Fullname',
             'dob' => 'Dob',
             'nric' => 'Nric',
+            'file' => 'Image',
             'image_path' => 'Image Path',
             'thumbnail_path' => 'Thumbnail Path',
             'status' => 'Status',
             'created_at' => 'Created At',
             'remark' => 'Remark',
+            'hide_photo' => 'Do you want to hide photo?',
+
         ];
     }
+
 
     /**
      * @return \yii\db\ActiveQuery
