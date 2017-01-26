@@ -172,8 +172,19 @@ class ResidentController extends Controller
         $model = Resident::findOne($id);
         $model->status = 1 - $status;
         $model->save();
+//        return true;
         return $this->redirect(['index']);
 
+    }
+    public function actionRemark(){
+        $id = $_POST['id'];
+        $remark = $_POST['remark'];
+        $status = $_POST['status'];
+        $model = Resident::findOne($id);
+        $model->remark = $remark;
+        $model->status = 1 - $status;
+        $model->save();
+        return $this->redirect(['index']);
     }
 
     /**
