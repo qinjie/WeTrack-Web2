@@ -60,7 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Remark</h4>
             </div>
             <div class="modal-body">
@@ -68,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <textarea id="remark" class="form-control" rows="5" placeholder="Please provide more informations like last seen date/time, last seen location, last dress,..."></textarea>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info" data-dismiss="modal" onclick="getRemark()">Submit</button>
+                <button type="submit" class="btn btn-info" data-dismiss="modal" onclick="getRemark()">Report Missing</button>
             </div>
         </div>
 
@@ -102,7 +101,6 @@ $this->registerJs($script);
         var resident = $("#remark").data("resident");
         var status = $("#remark").data("status");
         var remark = $('#remark').val();
-//        alert(resident + remark);
         $.ajax({
             url: '../resident/remark',
             type: 'post',
@@ -120,8 +118,8 @@ $this->registerJs($script);
 //                alert(errMsg + $status + jqXHR.status);
             }
         });
-
     }
+
     var flag = false;
     function handleClick(cb) {
         if (flag) return;
@@ -135,6 +133,12 @@ $this->registerJs($script);
             $('#myModal #remark').attr("data-resident", cb.id);
             $('#myModal #remark').attr("data-status", $status);
             $('#myModal').modal('show');
+
+//            if (!$('#myModal').hasClass('in')) {
+//                // if modal is not shown/visible then do something
+//                location.reload();
+//            }
+
         }
         else {
 
