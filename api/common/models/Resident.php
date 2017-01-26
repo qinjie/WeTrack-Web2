@@ -20,6 +20,9 @@ class Resident extends \common\models\Resident
             'dob',
             'nric',
             'status',
+            'created_at',
+            'reported_at',
+            'remark',
             'image_path' => function(){
                 if ($this->hide_photo) return "";
                 return $this->image_path;

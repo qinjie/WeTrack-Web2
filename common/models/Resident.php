@@ -15,6 +15,7 @@ use Yii;
  * @property string $thumbnail_path
  * @property integer $status
  * @property string $created_at
+ * @property string $reported_at
  * @property string $remark
  * @property integer $hide_photo
  *
@@ -40,7 +41,7 @@ class Resident extends \yii\db\ActiveRecord
     {
         return [
             [['fullname', 'dob', 'nric', 'status'], 'required'],
-            [['dob', 'created_at'], 'safe'],
+            [['dob', 'created_at', 'reported_at'], 'safe'],
             [['image_path', 'thumbnail_path', 'remark'], 'string'],
             [['status', 'hide_photo'], 'integer'],
             [['image_path'],'default','value'=>'uploads/human_images/no_image.png'],
@@ -63,6 +64,7 @@ class Resident extends \yii\db\ActiveRecord
             'thumbnail_path' => 'Thumbnail Path',
             'status' => 'Status',
             'created_at' => 'Created At',
+            'reported_at' => 'Reported At',
             'remark' => 'Remark',
             'hide_photo' => 'Do you want to hide photo?',
 

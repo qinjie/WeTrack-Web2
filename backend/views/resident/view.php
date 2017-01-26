@@ -47,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ],
             'created_at',
+            'reported_at',
             'remark',
         ],
     ]) ?>
