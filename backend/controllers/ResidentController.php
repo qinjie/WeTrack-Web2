@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Beacon;
+use common\models\Location;
 use common\models\LocationHistory;
 use common\models\LocationHistorySearch;
 use Yii;
@@ -179,14 +180,24 @@ class ResidentController extends Controller
     }
     public function actionRemark(){
         $id = $_POST['id'];
+//        $id = 1;
         $remark = $_POST['remark'];
         $status = $_POST['status'];
         $model = Resident::findOne($id);
+        $locations  = ($model->locations);
+//        var_dump($locations);
+        foreach ($locations as $key => $value){
+//            var_dump($value->id);
+            $location = Location::findOne($value->id);
+            $location->delete();
+
+        }
         $model->remark = $remark;
         $model->status = 1 - $status;
         $model->reported_at = date('Y-m-d H:i:s');
         $model->save();
         return $this->redirect(['index']);
+//        return true;
     }
 
     /**
