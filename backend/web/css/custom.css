@@ -820,4 +820,22 @@ td img{
 iframe{
     display: block;
     margin: 0 auto;
+    position: fixed;
+    top: 325px;
+    /*right: 10px;*/
+}
+
+.fix {
+    position: static;
+    /**position: relative; !*ie7*!*/
+    /*margin-left: -100px;*/
+    /*width: 100px;*/
+}
+div .scroll {
+    /*width: 150px;*/
+    height: 470px;
+    overflow-x: scroll;
+}
+.tableDashboard, th, td {
+    padding: 0px 0px 0px 0px;
 }

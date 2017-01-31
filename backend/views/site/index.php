@@ -84,7 +84,7 @@ $this->title = 'We Track';
     //        src=' . "https://www.google.com/maps/embed/v1/place?key=AIzaSyA13kujZA51OzrcdJOyOngtPG13xxKsA1U&q=1.3348709,103.7764856&zoom=18" . ' allowfullscreen>
     //    </iframe></div></table>';
 
-    echo '<div class="col-md-12 " style="
+    echo '<div class="col-md-12 scroll" style="
             "><table border="1">';
     $ok = true;
     $row = $count;
@@ -106,7 +106,7 @@ $this->title = 'We Track';
             $link = "../web/location-history/view?id=" . $value->id;
             $link_resident = "../web/resident/view?id=" . $m->id;
             echo '<tr><td class="profile"id="'. $value->id . '"onclick="handleClick('. $value->id . ')" data-latitude="'.$value->latitude.'" data-longitude="'.
-                $value->longitude. '" value="haha">
+                $value->longitude. '">
                                 <img src="' .  $m->image_path . '" width="80" height="80" style="margin: 4px 5px; float: left;" />
                                 <a href="'. $link_resident . '"><h2>' . $m->fullname . $status.'</h2></a>
                                 <h3>'. $diff_time .'</h3>
@@ -118,8 +118,8 @@ $this->title = 'We Track';
                 $key = "AIzaSyA13kujZA51OzrcdJOyOngtPG13xxKsA1U";
                 $place = "https://www.google.com/maps/embed/v1/place?key=" .$key . htmlspecialchars ('&').  'q='
                     . $value->latitude . "," . $value->longitude . "&zoom=18";
-                echo '<td rowspan="6" id="replaceCell">
-                        <iframe width="760" height="'.($row*84) .'" frameborder="0" style="margin: 0 auto;border:0;"
+                echo '<td rowspan="'. $row.'" id="replaceCell" >
+                        <iframe width="760" height="450" frameborder="0" style="margin: 0 auto;border:0;"
                         src='.$place .' allowfullscreen=""></iframe>
                        </td>';
                 $ok = false;
@@ -139,7 +139,7 @@ $this->title = 'We Track';
         var long = $("#"+id).data("longitude");
         var lat = $("#"+id).data("latitude");
 
-        $("#replaceCell").html('<iframe width="760" height="' + <?php echo ($count*84) ?> +'" frameborder="0" style="margin: 0 auto;border:0;" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA13kujZA51OzrcdJOyOngtPG13xxKsA1U&amp;q='+lat+','+long+'&amp;zoom=18" allowfullscreen=""></iframe>')
+        $("#replaceCell").html('<iframe width="760" height="450" frameborder="0" style="margin: 0 auto;border:0;" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA13kujZA51OzrcdJOyOngtPG13xxKsA1U&amp;q='+lat+','+long+'&amp;zoom=18" allowfullscreen=""></iframe>')
 //        alert(long);
     }
 </script>
