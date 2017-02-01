@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     ;
                     return $s;
-                    return ($data->status == 1) ? "Missing" : "Available";
+//                    return ($data->status == 1) ? "Missing" : "Available";
 
                 },
             ],
@@ -121,6 +121,7 @@ $this->registerJs($script);
     }
 
     var flag = false;
+
     function handleClick(cb) {
         if (flag) return;
         flag = true;
@@ -132,7 +133,12 @@ $this->registerJs($script);
         if ($status == 0){
             $('#myModal #remark').attr("data-resident", cb.id);
             $('#myModal #remark').attr("data-status", $status);
-            $('#myModal').modal('show');
+            $('#myModal').modal({
+                    show: true,
+                    backdrop: 'static'
+
+            }
+            );
 
 //            if (!$('#myModal').hasClass('in')) {
 //                // if modal is not shown/visible then do something
