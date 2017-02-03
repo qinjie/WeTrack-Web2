@@ -22,5 +22,15 @@ return [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => '913410235019-te7nksk88e7niln6e8noc8bfe935d9bk.apps.googleusercontent.com',
+                    'clientSecret' => '2_B-eJ_mkU626RdI_VOQyyPk',
+                ],
+            ],
+        ]
     ],
 ];
