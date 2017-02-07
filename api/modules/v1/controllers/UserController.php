@@ -27,12 +27,13 @@ use api\common\models\LoginModel;
 
 class UserController extends CustomActiveController
 {
+    public $modelClass = 'api\common\models\User';
     public function behaviors() {
         $behaviors = parent::behaviors();
 
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['login'],
+            'except' => ['login', 'haha'],
         ];
 
         $behaviors['access'] = [
