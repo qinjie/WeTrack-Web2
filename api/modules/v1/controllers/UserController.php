@@ -33,7 +33,7 @@ class UserController extends CustomActiveController
 
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['login', 'haha'],
+            'except' => ['login', 'login-email'],
         ];
 
         $behaviors['access'] = [
@@ -43,7 +43,7 @@ class UserController extends CustomActiveController
             ],
             'rules' => [
                 [
-                    'actions' => ['login'],
+                    'actions' => ['login', 'login-email'],
                     'allow' => true,
                     'roles' => ['?'],
                 ],
@@ -78,6 +78,38 @@ class UserController extends CustomActiveController
         $model->username = $username;
         $model->password = $password;
         if ($user = $model->login()) {
+            if ($user->status == User::STATUS_ACTIVE) {
+                UserToken::deleteAll(['user_id' => $user->id]);
+                $token = TokenHelper::createUserToken($user->id);
+                return [
+                    'user_id' => $user->id,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'token' => $token->token,
+                ];
+            } else throw new BadRequestHttpException(null);
+        } else {
+            if (isset($model->errors['username']))
+                throw new BadRequestHttpException(null);
+            if (isset($model->errors['password']))
+                throw new BadRequestHttpException(null);
+        }
+        throw new BadRequestHttpException('Invalid data');
+    }
+
+    public function actionLoginEmail(){
+        $request = Yii::$app->request;
+        $bodyParams = $request->bodyParams;
+        $email = $bodyParams['email'];
+        $model = User::findOne(['email' => $email]);
+//        return $model;
+        $loginModel = new LoginModel();
+        $loginModel->username = $model->username;
+        $loginModel = $model->password;
+//        return ($loginModel->username);
+//        if ($user = $loginModel->login()) {
+        if($user= $model){
+
             if ($user->status == User::STATUS_ACTIVE) {
                 UserToken::deleteAll(['user_id' => $user->id]);
                 $token = TokenHelper::createUserToken($user->id);
