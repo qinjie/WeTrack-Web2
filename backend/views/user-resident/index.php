@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\UserResidentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'User Residents';
+$this->title = 'Relations';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-resident-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create User Resident', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create relation', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

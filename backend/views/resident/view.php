@@ -36,7 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'nric',
             'image_path:ntext',
             'thumbnail_path:ntext',
-//            'status',
+            [
+//                'attribute' =>  'hide_photo',
+                'label' => 'Image display',
+                'format' => 'raw',
+                'attribute' => function($data){
+                    return Html::encode(($data->hide_photo == 1) ?  "Yes" : "No");
+                },
+            ],
             [
 //                'attribute' => 'status',
                 'label' => 'Status',

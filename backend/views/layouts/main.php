@@ -52,6 +52,12 @@ AppAsset::register($this);
                     ['label' => 'Missing Residents',
                         'url' => ['/resident/index?ResidentSearch[status]=1'],
                     ],
+                    ['label' => 'Resident Relative',
+                        'url' => ['/user-resident/index'],
+                    ],
+                    ['label' => 'User',
+                        'url' => ['/user/index'],
+                    ],
                 ],
 
             ],
