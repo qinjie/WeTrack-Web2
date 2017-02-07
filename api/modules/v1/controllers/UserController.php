@@ -82,19 +82,26 @@ class UserController extends CustomActiveController
                 UserToken::deleteAll(['user_id' => $user->id]);
                 $token = TokenHelper::createUserToken($user->id);
                 return [
+                    'result' => "correct",
                     'user_id' => $user->id,
                     'username' => $user->username,
                     'email' => $user->email,
                     'token' => $token->token,
                 ];
-            } else throw new BadRequestHttpException(null);
+            } else
+                return [
+                    "result"=> "wrong"
+                ];
         } else {
-            if (isset($model->errors['username']))
-                throw new BadRequestHttpException(null);
-            if (isset($model->errors['password']))
-                throw new BadRequestHttpException(null);
+            return [
+                "result"=> "wrong"
+            ];
+//            if (isset($model->errors['username']))
+//                throw new BadRequestHttpException(null);
+//            if (isset($model->errors['password']))
+//                throw new BadRequestHttpException(null);
         }
-        throw new BadRequestHttpException('Invalid data');
+//        throw new BadRequestHttpException('Invalid data');
     }
 
     public function actionLoginEmail(){
@@ -102,13 +109,14 @@ class UserController extends CustomActiveController
         $bodyParams = $request->bodyParams;
         $email = $bodyParams['email'];
         $model = User::findOne(['email' => $email]);
-//        return $model;
-        $loginModel = new LoginModel();
-        $loginModel->username = $model->username;
-        $loginModel = $model->password;
+//        return is_null($model);
+//        $loginModel = new LoginModel();
+//        $loginModel->username = $model->username;
+//        $loginModel = $model->password;
 //        return ($loginModel->username);
 //        if ($user = $loginModel->login()) {
-        if($user= $model){
+        if(($model)){
+            $user = $model;
 
             if ($user->status == User::STATUS_ACTIVE) {
                 UserToken::deleteAll(['user_id' => $user->id]);
@@ -119,14 +127,20 @@ class UserController extends CustomActiveController
                     'email' => $user->email,
                     'token' => $token->token,
                 ];
-            } else throw new BadRequestHttpException(null);
+            }
+//            else throw new BadRequestHttpException(null);
+            else
+                return [
+                "result"=> "wrong"
+            ];
         } else {
-            if (isset($model->errors['username']))
-                throw new BadRequestHttpException(null);
-            if (isset($model->errors['password']))
-                throw new BadRequestHttpException(null);
+            return [
+                "result"=> "wrong"
+            ];
+//            throw new BadRequestHttpException('Invalid data');
+//            return null;
         }
-        throw new BadRequestHttpException('Invalid data');
+//        throw new BadRequestHttpException('Invalid data');
     }
 
     public function actionLogout(){
