@@ -30,5 +30,43 @@ class ResidentController extends CustomActiveController
             'query' => Resident::find()->where(['status' => 1])
         ]);
     }
+    public function behaviors() {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::className(),
+            'except' => [],
+        ];
+
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'ruleConfig' => [
+                'class' => AccessRule::className(),
+            ],
+            'rules' => [
+                [
+                    'actions' => [],
+                    'allow' => true,
+                    'roles' => ['?'],
+                ],
+                [
+                    'actions' => [],
+                    'allow' => true,
+                    'roles' => ['@'],
+                ]
+            ],
+            'denyCallback' => function ($rule, $action) {
+                throw new UnauthorizedHttpException('You are not authorized');
+            },
+        ];
+
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+            ],
+        ];
+
+        return $behaviors;
+    }
 
 }
