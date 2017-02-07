@@ -68,21 +68,10 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'auth' => [
-                'class' => 'yii\authclient\AuthAction',
-                'successCallback' => [$this, 'successCallback'],
-            ],
         ];
-    }
-
-    public function successCallback($client)
-    {
-        $attributes = $client->getUserAttributes();
-        // user login or signup comes here
     }
 
     public function actionIndex()
