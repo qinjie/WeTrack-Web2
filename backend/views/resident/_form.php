@@ -65,10 +65,10 @@ use yii\widgets\ActiveForm;
         '1' => 'Yes'
     ];
     ?>
-    <?= $form->field($model, 'status')->dropDownList($data) ?>
+    <?= $form->field($model, 'status')->dropDownList($data, ['onchange' => 'change'])->label('Status') ?>
     <?= $form->field($model, 'hide_photo')->dropDownList($hide)?>
 
-    <?= $form->field($model, 'remark')->textarea(["rows" => 5])?>
+    <?= $form->field($model, 'remark')->textarea(["rows" => 5])->label('Remarks')?>
 <!--    --><?php
 //        $this->registerJs('
 //         $(".status").change(function(){
