@@ -96,9 +96,9 @@ class User extends \yii\db\ActiveRecord
      */
     public function getRoleName()
     {
-        if ($this->role == 20) return 'Manager';
-        if ($this->role == 30) return 'Admin';
-        if ($this->role == 40) return 'Master';
+        if ($this->role == 10) return 'Volunteer';
+        if ($this->role == 20) return 'Family';
+        if ($this->role == 40) return 'Admin';
         return 'User';
     }
 

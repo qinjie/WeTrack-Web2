@@ -23,9 +23,6 @@ use common\models\Resident;
         ArrayHelper::map(Resident::find()->all(), 'id', 'fullname'))
     ?>
 
-<!--    --><?//= $form->field($model, 'user_id')->textInput() ?>
-
-<!--    --><?//= $form->field($model, 'resident_id')->textInput() ?>
     <?php
     $data = [
         'parent'=> 'parent',
@@ -38,9 +35,9 @@ use common\models\Resident;
         'others'=>'others'
     ];
     ?>
-    <?= $form->field($model, 'relation')->dropDownList($data) ?>
+    <?= $form->field($model, 'relation')->textInput() ?>
 
-<!--    --><?//= $form->field($model, 'created_at')->textInput() ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
