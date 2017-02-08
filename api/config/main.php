@@ -71,7 +71,8 @@ return [
                     'controller' => 'v1/resident',
                     'extraPatterns' => [
                         'GET search' => 'search',
-                        'GET missing' => 'missing'
+                        'GET missing' => 'missing',
+                        'POST status' => 'status'
                     ],
                     'tokens' => [
                         # Keep 'id' for default CRUD action

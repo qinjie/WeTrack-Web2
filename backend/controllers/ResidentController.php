@@ -119,7 +119,12 @@ class ResidentController extends Controller
                     $model->thumbnail_path = 'uploads/human_images/thumbnail_no_image.png';
                 }
             }
-
+            if ($model->status == 1) {
+                $model->reported_at = date('Y-m-d H:i:s');
+            }
+            else {
+                $model->reported_at = "";
+            }
             if ($model->save()) {
 
 
@@ -157,6 +162,12 @@ class ResidentController extends Controller
                     $model->image_path = "uploads/human_images/no_image.png";
                     $model->thumbnail_path = 'uploads/human_images/thumbnail_no_image.png';
                 }
+            }
+            if ($model->status == 1) {
+                $model->reported_at = date('Y-m-d H:i:s');
+            }
+            else {
+                $model->reported_at = "";
             }
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);

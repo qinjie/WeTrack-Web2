@@ -11,6 +11,7 @@ namespace api\modules\v1\controllers;
 use api\common\models\Resident;
 use api\components\CustomActiveController;
 use common\components\AccessRule;
+use common\models\User;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
@@ -67,6 +68,20 @@ class ResidentController extends CustomActiveController
         ];
 
         return $behaviors;
+    }
+    public function actionStatus(){
+        $request = Yii::$app->getRequest();
+        $id =$request->getBodyParam('id');
+        $model = Resident::findOne($id);
+        $model->status = 1 - $model->status;
+        if ($model->status == 1) {
+            $model->reported_at = date('Y-m-d H:i:s');
+        }
+        else {
+            $model->reported_at = "";
+        }
+        $model->save();
+        return $model;
     }
 
 }
