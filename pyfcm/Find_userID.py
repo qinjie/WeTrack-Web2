@@ -42,7 +42,7 @@ if __name__ == "__main__":
     for a in location_table:
         if (previous_time <= a[7]) and (a[7] <= current_time) :
             list_beacon_id.append(a[1])
-
+            
     for a in beacon_table:
         if (a[0] in list_beacon_id) :
             list_resident_id.append(a[1])
@@ -57,20 +57,20 @@ if __name__ == "__main__":
                 if (resident_id in list_resident_id) :
                     list.append(resident_id)
         if (len(list) > 0) :
-            print(user_id, list)
+ #           print(user_id, list)
             # for i in list:
             #     firebase.patch('UserID/' + str(user_id), {i: i})
             for dt in device_token :
                 if (dt[1] == user_id) :
                     registration_id = dt[2]
-                    message_title = "Ten ten ten"
+                    message_title = "We Track"
                     for reID in list :
                         for aa in resident_table :
-                            if (aa[0] == reID)
+                            if (aa[0] == reID) :
                                 message_body = str(aa[1]) + " has a new location."
                                 result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title,
                                                                            message_body=message_body)
-    print(1)
+#    print(1)
     cursor.close()
     connection.commit()
     connection.close()
