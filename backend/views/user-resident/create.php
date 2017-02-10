@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\UserResident */
 
 $this->title = 'Create User Resident';
-$this->params['breadcrumbs'][] = ['label' => 'User Residents', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Relations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-resident-create">

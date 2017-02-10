@@ -25,8 +25,24 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_id',
-            'resident_id',
+            'user.username',
+//            [
+//                'label' => 'User Name',
+//                'attribute' => 'user_id',
+//                'format' => 'html',
+//                'value' => function($model){
+//                    return Html::a($model->user->fullname, ['/user/view', 'id' => $model->resident->id]);
+//                }
+//            ],
+
+            [
+                'label' => 'Resident Name',
+                'attribute' => 'resident_id',
+                'format' => 'html',
+                'value' => function($model){
+                    return Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->resident->id]);
+                }
+            ],
             'relation:ntext',
             'created_at',
 
