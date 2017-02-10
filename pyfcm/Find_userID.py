@@ -31,6 +31,7 @@ if __name__ == "__main__":
     user_resident_table = getData('user_resident', cursor)
     user_table = getData('user', cursor)
     device_token = getData('device_token', cursor)
+    resident_table = getData('resident', cursor)
 
     current_time = datetime.now()
     # current_time = datetime.strptime("2017-02-06 14:20:08", "%Y-%m-%d %H:%M:%S")
@@ -64,9 +65,11 @@ if __name__ == "__main__":
                     registration_id = dt[2]
                     message_title = "Ten ten ten"
                     for reID in list :
-                        message_body = "Resident ID = " + str(reID) + " have new location."
-                        result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title,
-                                                                   message_body=message_body)
+                        for aa in resident_table :
+                            if (aa[0] == reID)
+                                message_body = str(aa[1]) + " has a new location."
+                                result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title,
+                                                                           message_body=message_body)
     print(1)
     cursor.close()
     connection.commit()
