@@ -8,6 +8,7 @@
 
 namespace api\modules\v1\controllers;
 
+use api\common\models\Location;
 use api\common\models\Resident;
 use api\components\CustomActiveController;
 use common\components\AccessRule;
@@ -69,11 +70,18 @@ class ResidentController extends CustomActiveController
 
         return $behaviors;
     }
+    public function deleteLocation($locations){
+        foreach ($locations as $key => $value){
+            $location = Location::findOne($value->id);
+            $location->delete();
+        }
+    }
     public function actionStatus(){
         $request = Yii::$app->getRequest();
         $id =$request->getBodyParam('id');
         $model = Resident::findOne($id);
         $model->status = 1 - $model->status;
+        $this->deleteLocation($model->locations);
         if ($model->status == 1) {
             $model->reported_at = date('Y-m-d H:i:s');
         }

@@ -189,6 +189,15 @@ class ResidentController extends Controller
         return $this->redirect(['index']);
 
     }
+
+    public function deleteLocation($locations){
+        foreach ($locations as $key => $value){
+//            var_dump($value->id);
+            $location = Location::findOne($value->id);
+            $location->delete();
+        }
+    }
+
     public function actionRemark(){
         $id = $_POST['id'];
 //        $id = 1;
@@ -196,13 +205,9 @@ class ResidentController extends Controller
         $status = $_POST['status'];
         $model = Resident::findOne($id);
         $locations  = ($model->locations);
+        $this->deleteLocation($locations);
 //        var_dump($locations);
-        foreach ($locations as $key => $value){
-//            var_dump($value->id);
-            $location = Location::findOne($value->id);
-            $location->delete();
 
-        }
         $model->remark = $remark;
         $model->status = 1 - $status;
         $model->reported_at = date('Y-m-d H:i:s');
