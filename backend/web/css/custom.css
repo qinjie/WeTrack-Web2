@@ -715,8 +715,8 @@ input.cmn-toggle-yes-no:checked + label:after {
     /*left: -3px;*/
 }
 .profile:hover {
-    background: rgba(255, 255, 255, 0.05);
-    
+    background: rgb(220, 220, 220);
+
 }
 .profile h2 {
     width: 265px;
@@ -818,10 +818,10 @@ td img{
 }
 
 iframe{
-    display: block;
-    margin: 0 auto;
-    position: fixed;
-    top: 325px;
+    /*display: block;*/
+    /*margin: 0 auto;*/
+    /*position: fixed;*/
+    /*top: 325px;*/
     /*right: 10px;*/
 }
 
@@ -833,8 +833,8 @@ iframe{
 }
 div .scroll {
     /*width: 150px;*/
-    height: 470px;
-    overflow-x: scroll;
+    max-height: 450px;
+    /*overflow-x: scroll;*/
 }
 .tableDashboard, th, td {
     padding: 0px 0px 0px 0px;
