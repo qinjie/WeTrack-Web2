@@ -34,7 +34,7 @@ class DeviceToken extends \yii\db\ActiveRecord
             [['user_id'], 'integer'],
             [['created_at'], 'safe'],
             [['token'], 'string', 'max' => 500],
-            [['token'], 'unique'],
+//            [['token'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
