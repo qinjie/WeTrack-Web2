@@ -25,21 +25,10 @@ $model->status = isset($model->status) ? $model->status : 1;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->widget(\kartik\select2\Select2::classname(), [
-        'data' => ['0' => 'Deleted', '1' => 'Blocked', '5' => 'Waiting', '10' => 'Active'],
-        'options' => ['placeholder' => 'Select status ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
+    <?= $form->field($model,'status')->dropDownList(['10' => 'Active', '0' => 'Deleted'])?>
+    <?= $form->field($model, 'role')->dropDownList($roleArray)?>
 
-    <?= $form->field($model, 'role')->widget(\kartik\select2\Select2::classname(), [
-        'data' => $roleArray,
-        'options' => ['placeholder' => 'Select role ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
+
 
 
 

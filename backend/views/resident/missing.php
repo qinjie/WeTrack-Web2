@@ -15,9 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Resident', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -31,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'format' => 'raw',
-                'filter' => Html::activeDropDownList($searchModel, 'status',[1 => 'Missing', 0 => 'Available'],['class'=>'form-control','prompt' => 'Select Status']),
+//                'filter' => Html::activeDropDownList($searchModel, 'status',[1 => 'Missing', 0 => 'Available'],['class'=>'form-control','prompt' => 'Select Status']),
                 'value' => function($data){
                     $d = ($data->status == 1) ? "checked" : "";
                     $s =
@@ -47,7 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
 
-             'created_at',
+            'created_at',
+//            'reported_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
@@ -78,24 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 ?>
-<?php
-$script = <<< JS
 
-    // $(function()
-    // {
-    //
-    // $('#myBtn').click(function ()
-    //             {
-    //                     $('#modal').modal('show')
-    //                     .find('#modalContent')
-    //                     .load($(this).attr('value'));
-    //                 });
-    //
-    // });
-
-JS;
-$this->registerJs($script);
-?>
 <script>
     function getRemark(){
         var resident = $("#remark").data("resident");
@@ -137,13 +119,10 @@ $this->registerJs($script);
                     show: true,
                     backdrop: 'static'
 
-            }
+                }
             );
 
-//            if (!$('#myModal').hasClass('in')) {
-//                // if modal is not shown/visible then do something
-//                location.reload();
-//            }
+
 
         }
         else {

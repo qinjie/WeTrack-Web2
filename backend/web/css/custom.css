@@ -632,7 +632,7 @@ a:link {
 ============================================================ */
 input.cmn-toggle-yes-no + label {
     padding: 2px;
-    width: 120px;
+    /*width: 120px;*/
     height: 60px;
 }
 input.cmn-toggle-yes-no + label:before, input.cmn-toggle-yes-no + label:after {
@@ -697,8 +697,9 @@ input.cmn-toggle-yes-no:checked + label:after {
     height: 90px;
     padding: 0;
     /*margin: 10px 0 0 8px;*/
-    background: #000000;
-    /*border: 2px solid #444;*/
+    background: #deddda;
+
+    border: 1px solid #444 !important;
     -moz-border-radius: 12px;
     -webkit-border-radius: 12px;
     border-radius: 3px;
@@ -715,7 +716,7 @@ input.cmn-toggle-yes-no:checked + label:after {
     /*left: -3px;*/
 }
 .profile:hover {
-    background: rgb(220, 220, 220);
+    background: rgb(250, 252, 253);
 
 }
 .profile h2 {

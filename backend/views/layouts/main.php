@@ -50,19 +50,20 @@ AppAsset::register($this);
                         'url' => ['/resident/index'],
                     ],
                     ['label' => 'Missing Residents',
-                        'url' => ['/resident/index?ResidentSearch[status]=1'],
+                        'url' => ['/resident/show-missing'],
                     ],
                     ['label' => 'Resident Relative',
                         'url' => ['/user-resident/index'],
                     ],
-                    ['label' => 'User',
-                        'url' => ['/user/index'],
-                    ],
+
                 ],
 
             ],
             ['label' => 'Beacons', 'url' => ['/beacon/index']],
             ['label' => 'Location History', 'url' => ['/location-history/index']],
+            ['label' => 'Users',
+                'url' => ['/user/index'],
+            ],
         ];
         $menuItems[] = [
             'label' => Yii::$app->user->identity->username ,

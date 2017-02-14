@@ -66,6 +66,21 @@ class ResidentController extends Controller
         ]);
     }
 
+    public function actionShowMissing()
+    {
+        $missing = Resident::find()->where(['status' => 1]);
+        $missingList = new ActiveDataProvider([
+            'query' => $missing
+        ]);
+        $searchModel = new ResidentSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $missingList;
+        return $this->render('missing', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Resident model.
      * @param integer $id
