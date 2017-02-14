@@ -18,8 +18,11 @@ def getData(name, cursor):
     cursor.execute(sql)
     return cursor.fetchall()
 
-if __name__ == "__main__":
+def updateData(id, status, cursor) :
+    sql = "UPDATE resident  SET status = %s, reported_at = NULL WHERE id = %s; " % (status, id)
+    cursor.execute(sql)
 
+if __name__ == "__main__":
     connection = pymysql.connect(host=_host,
                                  user=_user,
                                  password=_password,
@@ -30,10 +33,17 @@ if __name__ == "__main__":
     user_resident_table = getData('user_resident', cursor)
     device_token_table = getData('device_token', cursor)
     push_service = FCMNotification(api_key=_web_api_key)
+    time = datetime.now()
+    time = time - timedelta(days=1)
     for resident in resident_table :
         if (resident[7] == 1) :
             resident_id = resident[0]
             resident_name = resident[1]
+            reported_at = resident[9]
+            if (reported_at > time) :
+                continue
+            # print(resident_id)
+            updateData(resident_id, 0, cursor)
             for user in user_resident_table :
                 if (user[2] == resident_id) :
                     user_id = user[1]
@@ -41,11 +51,10 @@ if __name__ == "__main__":
                         if (dt[1] == user_id):
                             registration_id = dt[2]
                             message_title = "We Track"
-                            for reID in list:
-                                message_body = "Do you want to change stutus of " + str(resident_name)
-                                result = push_service.notify_single_device(registration_id=registration_id,
-                                                                           message_title=message_title,
-                                                                           message_body=message_body)
+                            message_body = "Do you want to change status of " + str(resident_name)
+                            result = push_service.notify_single_device(registration_id=registration_id,
+                                                                       message_title=message_title,
+                                                                       message_body=message_body)
 
     print(1)
     cursor.close()
