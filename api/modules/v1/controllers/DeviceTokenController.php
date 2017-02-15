@@ -77,5 +77,18 @@ class DeviceTokenController extends CustomActiveController
         else return null;
     }
 
+    public function actionDel(){
+        $request = Yii::$app->getRequest();
+        $user_id =$request->getBodyParam('user_id');
+        $token =$request->getBodyParam('token');
+        $device = DeviceToken::findOne(['user_id' => $user_id, 'token' => $token]);
+        if($device) {
+            $device->delete();
+            return ['result' => 'Done'];
+        }
+        else return ['result' => 'Error'];
+
+    }
+
 
 }
