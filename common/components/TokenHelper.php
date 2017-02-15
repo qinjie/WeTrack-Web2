@@ -4,6 +4,7 @@ namespace common\components;
 
 use common\models\UserToken;
 use Yii;
+use yii\base\ErrorException;
 
 /**
  * Created by PhpStorm.

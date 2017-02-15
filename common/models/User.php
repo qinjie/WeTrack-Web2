@@ -85,7 +85,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['username', 'unique', 'targetClass' => self::className(), 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255, 'message' => 'Min 2 characters; Max 255 characters.'],
 
-            ['email', 'required', 'message' => 'Please enter an email.'],
+//            ['email', 'required', 'message' => 'Please enter an email.'],
             ['email', 'email', 'message' => 'Invalid email address.'],
             ['email', 'unique', 'targetClass' => self::className(), 'message' => 'This email address has already been taken.'],
             ['email', 'string', 'max' => 255, 'message' => 'Max 255 characters.'],
