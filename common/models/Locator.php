@@ -15,6 +15,7 @@ use Yii;
  * @property string $created_at
  *
  * @property Location[] $locations
+ * @property LocationHistory[] $locationHistories
  */
 class Locator extends \yii\db\ActiveRecord
 {
@@ -60,5 +61,13 @@ class Locator extends \yii\db\ActiveRecord
     public function getLocations()
     {
         return $this->hasMany(Location::className(), ['locator_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocationHistories()
+    {
+        return $this->hasMany(LocationHistory::className(), ['locator_id' => 'id']);
     }
 }

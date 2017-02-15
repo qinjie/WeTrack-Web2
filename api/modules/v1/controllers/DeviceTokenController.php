@@ -30,12 +30,15 @@ class DeviceTokenController extends CustomActiveController
             "result"=> "wrong"
         ];
         if($user_id == 0) {
+//            return "ha";
             $user = $this->createUser($token);
+
             if (!$user) return $wrong;
             $user_id = $user->id;
             // Store a new Device Token
-            $device_token= $this->createDeviceToken($user, $user->username);
+            $device_token= $this->createDeviceToken($user->id, $user->username);
             //Store a new Token
+            return $user;
             UserToken::deleteAll(['user_id' => $user_id]);
             $token = TokenHelper::createUserToken($user_id);
             return [
@@ -48,7 +51,8 @@ class DeviceTokenController extends CustomActiveController
         }
         else {
             $user = User::findOne($user_id);
-            $device_token= $this->createDeviceToken($user, $token);
+            $device_token= $this->createDeviceToken($user->id, $token);
+            if (!$device_token) return "Error";
             return [
                 'result' => "correct",
                 'user_id' => $user->id,
@@ -61,18 +65,22 @@ class DeviceTokenController extends CustomActiveController
 
     }
     public function createUser($token){
-        $user = new \api\common\models\User();
+        $user = new User();
         $user->username = $token;
         $user->role = 5;
         $user->status = 10;
         if ($user->save()) return $user;
-        else return null;
+        else {
+            var_dump($user);
+            return null;
+        }
     }
 
-    public function createDeviceToken($user, $token){
+    public function createDeviceToken($user_id, $token){
         $device_token = new DeviceToken();
-        $device_token->user_id = $user->id;
+        $device_token->user_id = $user_id;
         $device_token->token = $token;
+
         if ($device_token->save()) return $device_token;
         else return null;
     }

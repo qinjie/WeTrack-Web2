@@ -64,6 +64,7 @@ AppAsset::register($this);
             ['label' => 'Users',
                 'url' => ['/user/index'],
             ],
+            ['label' => 'Locators', 'url' => ['/locator/index']],
         ];
         $menuItems[] = [
             'label' => Yii::$app->user->identity->username ,

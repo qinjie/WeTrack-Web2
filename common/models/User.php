@@ -81,7 +81,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['username', 'required', 'message' => 'Please enter an username.'],
-            ['username', 'match', 'pattern' => '#^[\w_-]+$#i', 'message' => 'Invalid username. Only alphanumeric characters are allowed.'],
+//            ['username', 'match', 'pattern' => '#^[\w_-]+$#i', 'message' => 'Invalid username. Only alphanumeric characters are allowed.'],
             ['username', 'unique', 'targetClass' => self::className(), 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255, 'message' => 'Min 2 characters; Max 255 characters.'],
 
