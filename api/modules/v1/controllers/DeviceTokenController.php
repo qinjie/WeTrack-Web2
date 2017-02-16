@@ -31,14 +31,20 @@ class DeviceTokenController extends CustomActiveController
         ];
         if($user_id == 0) {
 //            return "ha";
-            $user = $this->createUser($token);
+            $user = User::findOne(['username' => $token]);
 
-            if (!$user) return $wrong;
+            if (!$user) {
+                $user = $this->createUser($token);
+                // Store a new Device Token
+                $device_token= $this->createDeviceToken($user->id, $user->username);
+            }
+            $device_token = DeviceToken::findOne(['user_id' => $user->id, 'token' => $token]);
+            if (!$device_token) $device_token= $this->createDeviceToken($user->id, $user->username);
+
             $user_id = $user->id;
-            // Store a new Device Token
-            $device_token= $this->createDeviceToken($user->id, $user->username);
+
             //Store a new Token
-            return $user;
+//            return $user;
             UserToken::deleteAll(['user_id' => $user_id]);
             $token = TokenHelper::createUserToken($user_id);
             return [
@@ -71,7 +77,7 @@ class DeviceTokenController extends CustomActiveController
         $user->status = 10;
         if ($user->save()) return $user;
         else {
-            var_dump($user);
+//            var_dump($user);
             return null;
         }
     }

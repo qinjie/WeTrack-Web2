@@ -31,7 +31,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
 //            'locator_id',
-//            'user_id',
+            [
+                'attribute' => 'user_id',
+                'label' => 'Detector Name',
+                'value' => function($data){
+                    switch ($data->user->role) {
+                        case 2: return "Raspberry Pi";
+                        case 5: return "Anonymous";
+                        default: return $data->user->username;
+                    }
+                }
+            ],
 
             [
                 'label' => 'Resident Name',

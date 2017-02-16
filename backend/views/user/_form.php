@@ -24,6 +24,7 @@ $model->status = isset($model->status) ? $model->status : 1;
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'phone_number')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model,'status')->dropDownList(['10' => 'Active', '0' => 'Deleted'])?>
     <?= $form->field($model, 'role')->dropDownList($roleArray)?>

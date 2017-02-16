@@ -68,7 +68,15 @@ class LocationHistoryController extends CustomActiveController
         $beacon_id =$request->getBodyParam('beacon_id');
         $user_id =$request->getBodyParam('user_id');
         $user = User::findOne($user_id);
+        if ($user) return [
+            'result' => 'wrong',
+            'message' => 'User not found'
+        ];
         $locator  = Locator::findOne(['serial_number' => $user->username]);
+        if ($locator) return [
+            'result' => 'wrong',
+            'message' => 'Locator not found'
+        ];
         $location = new LocationHistory();
         $location->user_id = $user_id;
         $location->beacon_id = $beacon_id;
