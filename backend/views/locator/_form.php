@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'location_subname')->textInput() ?>
 
+    <?= $form->field($model, 'serial_number')->textInput() ?>
+
     <?= $form->field($model, 'longitude')->textInput() ?>
 
     <?= $form->field($model, 'latitude')->textInput() ?>
@@ -147,7 +149,7 @@ use yii\widgets\ActiveForm;
     <div id="info"></div>
     <b>Closest matching address:</b>
     <div id="address"></div>
-   
+
 </div>
 
 

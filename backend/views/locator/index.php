@@ -27,8 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'location_name:ntext',
             'location_subname:ntext',
+            'serial_number:ntext',
             'longitude',
-            'latitude',
+            // 'latitude',
             // 'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],

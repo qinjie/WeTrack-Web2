@@ -8,8 +8,11 @@
 
 namespace api\modules\v1\controllers;
 
+use api\common\models\LocationHistory;
 use api\components\CustomActiveController;
 use common\components\AccessRule;
+use common\models\Locator;
+use common\models\User;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
@@ -58,5 +61,20 @@ class LocationHistoryController extends CustomActiveController
         ];
 
         return $behaviors;
+    }
+
+    public function actionNew(){
+        $request = Yii::$app->getRequest();
+        $beacon_id =$request->getBodyParam('beacon_id');
+        $user_id =$request->getBodyParam('user_id');
+        $user = User::findOne($user_id);
+        $locator  = Locator::findOne(['serial_number' => $user->username]);
+        $location = new LocationHistory();
+        $location->user_id = $user_id;
+        $location->beacon_id = $beacon_id;
+        $location->latitude = $locator->latitude;
+        $location->longitude = $locator->longitude;
+        if ($location->save()) return $location;
+        else return null;
     }
 }
