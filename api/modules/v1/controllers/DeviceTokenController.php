@@ -58,8 +58,9 @@ class DeviceTokenController extends CustomActiveController
         }
         else {
             $user = User::findOne($user_id);
-            $device_token= $this->createDeviceToken($user->id, $token);
-            if (!$device_token) return "Error";
+            if (!$user) return $wrong;
+            $device_token = DeviceToken::findOne(['user_id' => $user->id, 'token' => $token]);
+            if (!$device_token) $device_token= $this->createDeviceToken($user->id, $token);;
             return [
                 'result' => "correct",
                 'user_id' => $user->id,
