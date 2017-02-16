@@ -52,7 +52,8 @@ class DeviceTokenController extends CustomActiveController
                 'user_id' => $user->id,
                 'username' => $user->username,
                 'token' => $token->token,
-                'email' => ""
+                'email' => "",
+                'role' => $user->role,
 //                'device_token' => $device_token->token
             ];
         }
