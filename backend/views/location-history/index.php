@@ -36,8 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Detector Name',
                 'value' => function($data){
                     switch ($data->user->role) {
-                        case 2: return "Raspberry Pi";
-                        case 5: return "Anonymous";
+                        case 2: return "Raspberry " . $data->user_id;
+                        case 5: return "Anonymous " . $data->user_id;
                         default: return $data->user->username;
                     }
                 }
