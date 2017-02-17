@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Image display',
                 'format' => 'raw',
                 'attribute' => function($data){
-                    return Html::encode(($data->hide_photo == 1) ?  "Yes" : "No");
+                    return Html::encode(($data->hide_photo == 1) ?  "No" : "Yes");
                 },
             ],
             [

@@ -96,10 +96,13 @@ class User extends \yii\db\ActiveRecord
      */
     public function getRoleName()
     {
-        if ($this->role == 10) return 'Volunteer';
-        if ($this->role == 20) return 'Family';
-        if ($this->role == 40) return 'Admin';
-        return 'User';
+        switch ($this->role) {
+            case 2: return 'Raspberry Pi';
+            case 5: return 'Anonymous';
+            case 10: return 'Volunteer';
+            case 20: return 'Family';
+            case 40: return 'Admin';
+        }
     }
 
     public function getStatusName(){

@@ -29,7 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'username',
+            [
+                'attribute'=>'username',
+                'value'=>function ($data){
+                    if ($data->role == 5) return "Anonymous " . $data->id;
+                    if ($data->role == 2) return "Raspberry " . $data->id;
+                    return $data->username;
+                }
+            ],
             'email:email',
             'email_confirm_token:email',
             'roleName',

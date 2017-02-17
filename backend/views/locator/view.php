@@ -37,5 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
         ],
     ]) ?>
+    <?php
+    echo '<iframe
+        width="800"
+        height="500"
+        frameborder="0" style="border:0"
+        src=' . $place . ' allowfullscreen>
+        </iframe>'
+    ?>
 
 </div>
