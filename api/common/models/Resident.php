@@ -23,6 +23,7 @@ class Resident extends \common\models\Resident
             'created_at',
             'reported_at',
             'remark',
+            'hide_photo',
             'image_path' => function(){
                 if ($this->hide_photo) return "";
                 return $this->image_path;

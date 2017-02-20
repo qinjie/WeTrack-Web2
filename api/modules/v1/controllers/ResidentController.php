@@ -80,9 +80,11 @@ class ResidentController extends CustomActiveController
         $request = Yii::$app->getRequest();
         $id =$request->getBodyParam('id');
         $remark = $request->getBodyParam('remark');
+        $hidden_photo = $request->getBodyParam('isHiddenPhoto');
         $model = Resident::findOne($id);
         $model->status = 1 - $model->status;
-        $model->remark = $remark;
+        if ($remark) $model->remark = $remark;
+        if (!is_null($hidden_photo)) $model->hide_photo = $hidden_photo;
         $this->deleteLocation($model->locations);
         if ($model->status == 1) {
             $model->reported_at = date('Y-m-d H:i:s');
