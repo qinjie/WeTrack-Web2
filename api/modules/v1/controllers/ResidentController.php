@@ -79,8 +79,10 @@ class ResidentController extends CustomActiveController
     public function actionStatus(){
         $request = Yii::$app->getRequest();
         $id =$request->getBodyParam('id');
+        $remark = $request->getBodyParam('remark');
         $model = Resident::findOne($id);
         $model->status = 1 - $model->status;
+        $model->remark = $remark;
         $this->deleteLocation($model->locations);
         if ($model->status == 1) {
             $model->reported_at = date('Y-m-d H:i:s');
