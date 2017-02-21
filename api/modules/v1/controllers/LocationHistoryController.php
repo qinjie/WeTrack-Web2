@@ -83,7 +83,7 @@ class LocationHistoryController extends CustomActiveController
         $location->beacon_id = $beacon_id;
         $location->latitude = $locator->latitude;
         $location->longitude = $locator->longitude;
-        $location->address = Utils::getAddressFromGPS($location->latitude, $location->longitude);
+        $location->address = $locator->location_subname;
         if ($location->save()) return $location;
         else return null;
     }
