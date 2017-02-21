@@ -19,6 +19,7 @@ use yii\filters\auth\HttpBearerAuth;
 use yii\filters\VerbFilter;
 use yii\web\UnauthorizedHttpException;
 use Yii;
+use common\components\Utils;
 
 class LocationHistoryController extends CustomActiveController
 {
@@ -82,6 +83,7 @@ class LocationHistoryController extends CustomActiveController
         $location->beacon_id = $beacon_id;
         $location->latitude = $locator->latitude;
         $location->longitude = $locator->longitude;
+        $location->address = Utils::getAddressFromGPS($location->latitude, $location->longitude);
         if ($location->save()) return $location;
         else return null;
     }
