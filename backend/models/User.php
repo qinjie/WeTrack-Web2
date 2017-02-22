@@ -44,7 +44,8 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username'], 'required'],
-            [['role', 'status', 'allowance', 'timestamp', 'created_at', 'updated_at'], 'integer'],
+            [['role', 'status', 'allowance', 'timestamp'], 'integer'],
+            [['created_at', 'updated_at'],'safe'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'email_confirm_token'], 'string', 'max' => 255],
             [['auth_key', 'access_token'], 'string', 'max' => 32],
         ];
@@ -75,13 +76,6 @@ class User extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFloorManagers()
-    {
-        return $this->hasMany(FloorManager::className(), ['userid' => 'id']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery

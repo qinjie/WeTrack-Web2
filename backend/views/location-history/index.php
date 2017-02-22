@@ -28,6 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     $data[$item->id] = $item->username;
             }
         }
+        $residents = [];
+        $beacons = \common\models\Beacon::find()->all();
+        foreach ($beacons as $value => $item){
+//                echo $item->id . " -- " . $item->resident->fullname . "\n";
+            $residents[$item->id] = $item->resident->fullname;
+        }
 //        var_dump($users);
     ?>
 
@@ -65,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Resident Name',
                 'attribute' => 'beacon_id',
-//                'filter' => Html::activeDropDownList($searchModel, 'beacon_id',$data,['class'=>'form-control','prompt' => 'Select Detector Name']),
+                'filter' => Html::activeDropDownList($searchModel, 'beacon_id', $residents,['class'=>'form-control','prompt' => 'Select Detector Name']),
 //                'filter' => Html::activeDropDownList($searchModel, 'beacon.resident_id', \yii\helpers\ArrayHelper::map(\common\models\Resident::find()->asArray()->all(), 'id', 'fullname')
 //                    ,['class'=>'form-control','prompt' => 'Select Status']),
                 'format' => 'raw',
