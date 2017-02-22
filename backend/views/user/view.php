@@ -35,21 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            [
-                'attribute'=>'username',
-                'value'=>function ($data){
-                    $res = "";
-                    switch ($data->role){
-                        case 5: $res = "Anonymous " . $data->id;
-                            break;
-                        case 2: $res = "Raspberry " . $data->id;
-                            break;
-                        default:
-                            $res = $data->username;
-                    }
-                    return $res;
-                }
-            ],
+            'username',
             'email:email',
             'email_confirm_token:email',
             'roleName',
