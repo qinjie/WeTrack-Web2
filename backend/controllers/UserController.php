@@ -68,7 +68,7 @@ class UserController extends Controller
     public function actionView($id)
     {
         $query = User::find()->where(['id' => $id])->one();
-        if ($query['role'] >= Yii::$app->user->identity->role){
+        if ($query['role'] > Yii::$app->user->identity->role){
             throw new UserException("You can't see user who have role equal or greater than you");
         }
         return $this->render('view', [

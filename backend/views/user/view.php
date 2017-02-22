@@ -5,8 +5,14 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
-
-$this->title = $model->username;
+switch ($model->role) {
+    case 2: $this->title  = "Anonymous " . $model->id;
+        break;
+    case 5: $this->title  = "Raspberry " . $model->id;
+        break;
+    default:
+        $this->title = $model->username;
+} 
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
