@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 switch ($model->role) {
-    case 2: $this->title  = "Anonymous " . $model->id;
+    case 5: $this->title  = "Anonymous " . $model->id;
         break;
-    case 5: $this->title  = "Raspberry " . $model->id;
+    case 2: $this->title  = "Raspberry " . $model->id;
         break;
     default:
         $this->title = $model->username;
-} 
+}
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -38,9 +38,16 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'username',
                 'value'=>function ($data){
-                    if ($data->role == 5) return "Anonymous " . $data->id;
-                    if ($data->role == 2) return "Raspberry " . $data->id;
-                    return $data->username;
+                    $res = "";
+                    switch ($data->role){
+                        case 5: $res = "Anonymous " . $data->id;
+                            break;
+                        case 2: $res = "Raspberry " . $data->id;
+                            break;
+                        default:
+                            $res = $data->username;
+                    }
+                    return $res;
                 }
             ],
             'email:email',
