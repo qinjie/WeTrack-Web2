@@ -11,6 +11,7 @@ $this->title = 'We Track';
 
     .container {
         height: 100% ;
+        display: table;
     }
 </style>
 <div class="jumbotron">
