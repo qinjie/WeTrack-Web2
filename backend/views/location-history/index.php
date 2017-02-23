@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'beacon_id',
                 'filter' => Html::activeDropDownList($searchModel, 'beacon_id', \yii\helpers\ArrayHelper::map(\common\models\Beacon::find()->asArray()->all(), 'id', 'id')
-                    ,['class'=>'form-control','prompt' => 'Select Status']),
+                    ,['class'=>'form-control','prompt' => 'Select Beacon Id']),
                 'format' => 'raw',
                 'value' => function ($data) {
                     return Html::a($data->beacon_id, ['/beacon/view', 'id' => $data->beacon_id]);
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'locator_id',
             [
                 'attribute' => 'user_id',
-                'filter' => Html::activeDropDownList($searchModel, 'user_id',$data,['class'=>'form-control','prompt' => 'Select Detector Name']),
+                'filter' => Html::activeDropDownList($searchModel, 'user_id',$data,['class'=>'form-control','prompt' => "Select Detector's Name"]),
                 'label' => 'Detector Name',
                 'value' => function($data){
                     switch ($data->user->role) {
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Resident Name',
                 'attribute' => 'beacon_id',
-                'filter' => Html::activeDropDownList($searchModel, 'beacon_id', $residents,['class'=>'form-control','prompt' => 'Select Detector Name']),
+                'filter' => Html::activeDropDownList($searchModel, 'beacon_id', $residents,['class'=>'form-control','prompt' => "Select Resident's Name"]),
 //                'filter' => Html::activeDropDownList($searchModel, 'beacon.resident_id', \yii\helpers\ArrayHelper::map(\common\models\Resident::find()->asArray()->all(), 'id', 'fullname')
 //                    ,['class'=>'form-control','prompt' => 'Select Status']),
                 'format' => 'raw',
@@ -84,7 +84,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'longitude',
             'latitude',
             'created_at',
-
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => "{view} {delete}"
