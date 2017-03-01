@@ -68,8 +68,13 @@ if __name__ == "__main__":
                         for aa in resident_table :
                             if (aa[0] == reID) :
                                 message_body = str(aa[1]) + " has a new location."
-                                result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title,
-                                                                           message_body=message_body)
+				data_message = {
+						'data' : message_body,
+						'id': reID
+				}
+				result = push_service.notify_single_device(registration_id=registration_id, data_message=data_message)
+#                                result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title,
+ #                                                                          message_body=message_body)
 #    print(1)
     cursor.close()
     connection.commit()
