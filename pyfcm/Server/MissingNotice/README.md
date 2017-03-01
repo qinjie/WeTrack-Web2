@@ -16,6 +16,5 @@ Python application has reponsibility to find resident’s ID who had ‘Missing�
 4.	Run: git@github.com:qinjie/WeTrack-Web2.git
 5.	Go to: WeTrack-Web2\pyfcm\Server\MissingNotice
 6.	Config database, loop time, PatientTracking-Web address in main.py;
-	<br> ![Config Image](https://github.com/qinjie/PatientTracking-Python/blob/master/config_server.png)
-	<br> ![Config Image](https://github.com/qinjie/PatientTracking-Python/blob/master/config_server.png)
+	<br> ![Config Image](https://github.com/qinjie/WeTrack-Web2/blob/hiepBH/pyfcm/Img/W1.PNG)
 7.	Run python main.py or python3 main.py.
