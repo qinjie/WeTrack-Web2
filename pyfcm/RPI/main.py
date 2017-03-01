@@ -86,7 +86,7 @@ if __name__ == '__main__' :
                         print(post_data)
                         get_response = requests.post(url = url, data = post_data, headers = headers)
                         print(get_response.text)
-
+            time.sleep(4)
 
     else :
         print("This device unregistered!")
