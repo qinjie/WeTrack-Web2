@@ -39,6 +39,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_BLOCKED = 1;
     const STATUS_WAIT = 5;
     const STATUS_ACTIVE = 10;
+    const STATUS_CRASHED = -1;
 
     public static $roles = [40 => 'admin', 30 => 'admin', 20 => 'family', 10 => 'Volunteer', 5 => 'anonymous', 2 => 'Raspberry Pi'];
 
@@ -127,7 +128,9 @@ class User extends ActiveRecord implements IdentityInterface
             self::STATUS_DELETED => 'Deleted',
             self::STATUS_BLOCKED => 'Blocked',
             self::STATUS_ACTIVE => ' Active',
-            self::STATUS_WAIT => 'Pending Confirmation',];
+            self::STATUS_WAIT => 'Pending Confirmation',
+            self::STATUS_CRASHED => 'Crashed',
+        ];
     }
 
     /**

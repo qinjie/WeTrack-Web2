@@ -103,6 +103,7 @@ class User extends \yii\db\ActiveRecord
         if ($this->status == 0) return "Deleted";
         if ($this->status == 1) return "Blocked";
         if ($this->status == 5) return "Wait";
+        if ($this->status == -1) return "Crashed";
         return "Active";
     }
 

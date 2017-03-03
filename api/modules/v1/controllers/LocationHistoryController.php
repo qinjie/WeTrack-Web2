@@ -87,4 +87,23 @@ class LocationHistoryController extends CustomActiveController
         if ($location->save()) return $location;
         else return null;
     }
+
+    /**
+     * @return false|null|string
+     */
+    public function actionAlive()
+    {
+        $request = Yii::$app->getRequest();
+        $status =$request->getBodyParam('status');
+        $user_id =$request->getBodyParam('user_id');
+        $user = User::findOne($user_id);
+        if (!$user) return [
+            'result' => 'wrong',
+            'message' => 'User not found'
+        ];
+        $user->status = $status;
+        $user->updated_at = date("Y-m-d H:i:s");
+        $user->save();
+        return "ok";
+    }
 }
