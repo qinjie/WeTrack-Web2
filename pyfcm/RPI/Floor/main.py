@@ -4,6 +4,7 @@ import sys
 
 import blescan
 import getSerial
+import time
 
 import bluetooth._bluetooth as bluez
 
@@ -86,7 +87,7 @@ if __name__ == '__main__' :
                         print(post_data)
                         get_response = requests.post(url = url, data = post_data, headers = headers)
                         print(get_response.text)
-            time.sleep(4)
+            time.sleep(2)
 
     else :
         print("This device unregistered!")
