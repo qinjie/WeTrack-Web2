@@ -9,6 +9,8 @@ import connection
 
 import bluetooth._bluetooth as bluez
 
+time_sleep_after_no_connection = 10
+
 def convertUuid(uuid) :
     uuid = uuid.lower()
     result = ""
@@ -22,7 +24,7 @@ if __name__ == '__main__' :
     while (1) :
         if (connection.internet_on() == False) :
             print("No network connection, restart after 1 hour!")
-            time.sleep(10)
+            time.sleep(time_sleep_after_no_connection)
             continue
         url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/locator/login'
         serial_number = getSerial.getserial()
@@ -51,6 +53,10 @@ if __name__ == '__main__' :
         if (result["result"] == "correct") :
             userID = result['user_id']
             while True:
+                if (connection.internet_on() == False):
+                    print("No network connection, restart after 1 hour!")
+                    time.sleep(time_sleep_after_no_connection)
+                    continue
                 listReceiveBeacon = []
                 listReceiveBeaconID = []
                 listReceiveBeacon = blescan.parse_events(sock, 10)
