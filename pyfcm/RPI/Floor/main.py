@@ -1,10 +1,11 @@
-import  requests
-import  json
+import requests
+import json
 import sys
+import time
 
 import blescan
 import getSerial
-import time
+import connection
 
 import bluetooth._bluetooth as bluez
 
@@ -18,76 +19,81 @@ def convertUuid(uuid) :
 
         
 if __name__ == '__main__' :
-    url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/locator/login'
-    serial_number = getSerial.getserial()
-    post_data = {'serial_number':serial_number}
-    get_response = requests.post(url=url,data=post_data)
-    print get_response.text
-    listReceiveBeacon = []
-    listReceiveBeaconID = []
-    result = json.loads(get_response.text)
-    token = result["token"]
-    auth = "Bearer " + token
+    while (1) :
+        if (connection.internet_on() == False) :
+            print("No network connection, restart after 1 hour!")
+            time.sleep(10)
+            continue
+        url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/locator/login'
+        serial_number = getSerial.getserial()
+        post_data = {'serial_number':serial_number}
+        get_response = requests.post(url=url,data=post_data)
+        print get_response.text
+        listReceiveBeacon = []
+        listReceiveBeaconID = []
+        result = json.loads(get_response.text)
+        token = result["token"]
+        auth = "Bearer " + token
 
-    dev_id = 0
-    try:
-        sock = bluez.hci_open_dev(dev_id)
-        print
-        "ble thread started"
-
-    except:
-        print
-        "error accessing bluetooth device..."
-        sys.exit(1)
-
-    blescan.hci_le_set_scan_parameters(sock)
-    blescan.hci_enable_le_scan(sock)
-    if (result["result"] == "correct") :
-        userID = result['user_id']
-        while True:
-            listReceiveBeacon = []
-            listReceiveBeaconID = []
-            listReceiveBeacon = blescan.parse_events(sock, 10)
+        dev_id = 0
+        try:
+            sock = bluez.hci_open_dev(dev_id)
             print
-            "----------"
-            headers = {'Authorization': '%s' % auth}
-            url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/beacon?expand=resident,location,locationHistory'
-            lBc = requests.get(url, headers=headers)
-            listBeacon = json.loads(lBc.text)
-            temp = []
-            tempID = []
+            "ble thread started"
 
-            for a in listBeacon :
-                temp.append(convertUuid((a['uuid'])) + " " + str(a['major']) + " " + str(a['minor']))
-                tempID.append(a['id'])
-            #print temp
-            for a in listReceiveBeacon :
-                t = str(a['uuid']) + " " + str(a['major']) + " " + str(a['minor'])
-                
-                if (t in temp) :
-                    index = temp.index(t)
-                    listReceiveBeaconID.append(tempID[index])
-                    
-            #print listReceiveBeaconID
-            url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/resident/missing?expand=beacons,relatives,locations'
+        except:
+            print
+            "error accessing bluetooth device..."
+            sys.exit(1)
 
-            get_response = requests.get(url, headers=headers)
-            listMissingResident = json.loads(get_response.text)
-            # print(listMissingResident)
-            url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/location-history/new'
-            for a in listMissingResident :
-                t = a['beacons']
-                for b in t :
-                    ResidentMissingBeaconID = b['id']
-                    if ResidentMissingBeaconID in listReceiveBeaconID :
-                        post_data = {
-                                        "beacon_id" : ResidentMissingBeaconID,
-                                        "user_id" : userID
-                                     }
-                        print(post_data)
-                        get_response = requests.post(url = url, data = post_data, headers = headers)
-                        print(get_response.text)
-            time.sleep(2)
+        blescan.hci_le_set_scan_parameters(sock)
+        blescan.hci_enable_le_scan(sock)
+        if (result["result"] == "correct") :
+            userID = result['user_id']
+            while True:
+                listReceiveBeacon = []
+                listReceiveBeaconID = []
+                listReceiveBeacon = blescan.parse_events(sock, 10)
+                print
+                "----------"
+                headers = {'Authorization': '%s' % auth}
+                url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/beacon?expand=resident,location,locationHistory'
+                lBc = requests.get(url, headers=headers)
+                listBeacon = json.loads(lBc.text)
+                temp = []
+                tempID = []
 
-    else :
-        print("This device unregistered!")
+                for a in listBeacon :
+                    temp.append(convertUuid((a['uuid'])) + " " + str(a['major']) + " " + str(a['minor']))
+                    tempID.append(a['id'])
+                #print temp
+                for a in listReceiveBeacon :
+                    t = str(a['uuid']) + " " + str(a['major']) + " " + str(a['minor'])
+
+                    if (t in temp) :
+                        index = temp.index(t)
+                        listReceiveBeaconID.append(tempID[index])
+
+                #print listReceiveBeaconID
+                url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/resident/missing?expand=beacons,relatives,locations'
+
+                get_response = requests.get(url, headers=headers)
+                listMissingResident = json.loads(get_response.text)
+                # print(listMissingResident)
+                url = 'http://128.199.93.67/WeTrack/api/web/index.php/v1/location-history/new'
+                for a in listMissingResident :
+                    t = a['beacons']
+                    for b in t :
+                        ResidentMissingBeaconID = b['id']
+                        if ResidentMissingBeaconID in listReceiveBeaconID :
+                            post_data = {
+                                            "beacon_id" : ResidentMissingBeaconID,
+                                            "user_id" : userID
+                                         }
+                            print(post_data)
+                            get_response = requests.post(url = url, data = post_data, headers = headers)
+                            print(get_response.text)
+                time.sleep(2)
+
+        else :
+            print("This device unregistered!")
