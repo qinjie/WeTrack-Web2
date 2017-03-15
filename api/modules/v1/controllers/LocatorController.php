@@ -30,6 +30,8 @@ class LocatorController extends CustomActiveController
         ];
         UserToken::deleteAll(['user_id' => $user->id]);
         $token = TokenHelper::createUserToken($user->id);
+        $user->status = 10;
+        $user->save();
         return [
             'result' => "correct",
             'token' => $token->token,
