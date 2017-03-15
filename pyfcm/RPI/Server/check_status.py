@@ -2,9 +2,9 @@ import pymysql
 import datetime
 
 _host = 'localhost'
-_user = 'root'
-_password = 'abcd1234'
-_databse = 'we_track'
+_user = ''
+_password = ''
+_databse = 'test'
 
 def updateData(cursor, id) :
     sql = 'UPDATE user ' \
@@ -23,12 +23,12 @@ if __name__ == '__main__' :
     sql = 'SELECT user.id, user.role, user.updated_at FROM user'
     cursor.execute(sql)
     result = cursor.fetchall()
-    #print(result)
+    print(result)
     for a in result :
         if a[1] == 2 :
             updated_at = a[2]
             id = a[0]
-            k = datetime.datetime.now() - datetime.timedelta(minutes = 65)
+            k = datetime.datetime.now() - datetime.timedelta(hours=1)
             if (updated_at < k) :
                 updateData(cursor, id)
 
