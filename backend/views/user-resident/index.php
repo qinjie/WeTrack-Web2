@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\UserResidentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'User Residents';
+$this->title = 'Relations';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-resident-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create User Resident', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create relation', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,9 +24,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'user_id',
-            'resident_id',
+//            'id',
+            'user.username',
+//            [
+//                'label' => 'User Name',
+//                'attribute' => 'user_id',
+//                'format' => 'html',
+//                'value' => function($model){
+//                    return Html::a($model->user->fullname, ['/user/view', 'id' => $model->resident->id]);
+//                }
+//            ],
+
+            [
+                'label' => 'Resident Name',
+                'attribute' => 'resident_id',
+                'format' => 'html',
+                'value' => function($model){
+                    return Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->resident->id]);
+                }
+            ],
             'relation:ntext',
             'created_at',
 

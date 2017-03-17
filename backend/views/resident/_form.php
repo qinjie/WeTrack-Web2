@@ -25,34 +25,79 @@ use yii\widgets\ActiveForm;
 
 
     <?= $form->field($model, 'nric')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'file')->widget(\kartik\file\FileInput::className(),
-        [
-            'options' => ['accept' => 'image/*'],
-            'pluginOptions' => [
-                'showUpload' => false,
-                'initialPreview'=>[
-                    "../../" . $model->image_path,
-                ],
-                'initialPreviewAsData'=>true,
+    <?php
+        if ($model->isNewRecord) {
+            echo $form->field($model, 'file')->widget(\kartik\file\FileInput::className(),
+                [
+                    'options' => ['accept' => 'image/*'],
+                    'pluginOptions' => [
+                        'showUpload' => false,
+        //                'overwriteInitial'=>false,
+                        'maxFileSize'=>2800
+                    ]
+                ]);
+        }
+        else {
+             echo $form->field($model, 'file')->widget(\kartik\file\FileInput::className(),
+                [
+                    'options' => ['accept' => 'image/*'],
+                    'pluginOptions' => [
+                        'showUpload' => false,
+                        'initialPreview'=> "../../" . $model->image_path,
+                        'initialPreviewAsData'=>true,
 //                'overwriteInitial'=>false,
-                'maxFileSize'=>2800
-            ]
-        ]
-    ) ?>
+                        'maxFileSize'=>2800
+                    ]
+                ]
+            );
+        }
+    ?>
 
 
-    <?php $data = [
+
+    <?php
+    $data = [
         '0' => 'Available',
         '1' => 'Missing'
     ];
+    $hide = [
+        '0' => 'No',
+        '1' => 'Yes'
+    ];
     ?>
-    <?= $form->field($model, 'status')->dropDownList($data) ?>
+    <?= $form->field($model, 'status')->dropDownList($data, ['onchange' => 'change'])->label('Status') ?>
+    <?= $form->field($model, 'hide_photo')->dropDownList($hide)?>
+
+    <?= $form->field($model, 'remark')->textarea(["rows" => 5])->label('Remarks')?>
+<!--    --><?php
+//        $this->registerJs('
+//         $(".status").change(function(){
+//            var value = this.value;
+//            if(value == 0){
+//
+//            $(".remark").readOnly;
+//            }
+//
+//         }
+//        });
+//        ');
+//    ?>
 
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
+    
 
     <?php ActiveForm::end(); ?>
 
 </div>
+<!--<script>-->
+<!--    function change() {-->
+<!--        if ($('.status') == 1) {-->
+<!--            $('.remark').readOnly;-->
+<!--        }-->
+<!--        -->
+<!--    }-->
+<!---->
+<!--</script>-->

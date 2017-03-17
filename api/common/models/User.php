@@ -1,6 +1,8 @@
 <?php
 namespace api\common\models;
 
+use common\components\TokenHelper;
+use common\models\DeviceToken;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Link;

@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\Resident;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\UserResident */
@@ -12,13 +15,30 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    <?= $form->field($model, 'user_id')->dropDownList(
+        ArrayHelper::map(\common\models\User::find()->all(), 'id', 'username')
+    )->label("Username")
+    ?>
 
-    <?= $form->field($model, 'resident_id')->textInput() ?>
+    <?= $form->field($model, 'resident_id')->dropDownList(
+        ArrayHelper::map(Resident::find()->all(), 'id', 'fullname'))->label('Resident Name')
+    ?>
 
-    <?= $form->field($model, 'relation')->textInput() ?>
+    <?php
+    $data = [
+        'parent'=> 'parent',
+        'cousin' => 'cousin',
+        'son'=> 'son',
+        'daughter'=>'daughter',
+        'brother'=>'brother',
+        'sister'=>'sister',
+        'grand parent' => 'grand parent',
+        'others'=>'others'
+    ];
+    ?>
+    <?= $form->field($model, 'relation')->textInput()->label('Relationship') ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

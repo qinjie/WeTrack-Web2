@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Beacon;
+use common\models\Location;
 use common\models\LocationHistory;
 use common\models\LocationHistorySearch;
 use Yii;
@@ -65,6 +66,21 @@ class ResidentController extends Controller
         ]);
     }
 
+    public function actionShowMissing()
+    {
+        $missing = Resident::find()->where(['status' => 1]);
+        $missingList = new ActiveDataProvider([
+            'query' => $missing
+        ]);
+        $searchModel = new ResidentSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $missingList;
+        return $this->render('missing', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Resident model.
      * @param integer $id
@@ -74,25 +90,22 @@ class ResidentController extends Controller
     {
         $model = $this->findModel($id);
         $searchModel = new LocationHistorySearch();
-        $query = LocationHistory::find()->where(['user_id' => $id])->limit(5);
+//        $query = LocationHistory::find()->where(['beacon_id' => $model->beacons])->limit(5);
+        $locationHistories = $model->getLocationHistories(5);
+
         $beacon = Beacon::find()->where(['resident_id' => $id]);
         $beaconList = new ActiveDataProvider([
            'query' => $beacon
         ]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+        $locationList = new ActiveDataProvider([
+            'query' => $locationHistories,
             'pagination' => false,
-            'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_DESC,
-                ]
-            ]
         ]);
         return $this->render('view', [
             'model' => $model,
 //            'location_history' => $location_history,
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $locationList,
             'beacons' => $beaconList
         ]);
     }
@@ -121,7 +134,12 @@ class ResidentController extends Controller
                     $model->thumbnail_path = 'uploads/human_images/thumbnail_no_image.png';
                 }
             }
-
+            if ($model->status == 1) {
+                $model->reported_at = date('Y-m-d H:i:s');
+            }
+            else {
+                $model->reported_at = "";
+            }
             if ($model->save()) {
 
 
@@ -160,6 +178,12 @@ class ResidentController extends Controller
                     $model->thumbnail_path = 'uploads/human_images/thumbnail_no_image.png';
                 }
             }
+            if ($model->status == 1) {
+                $model->reported_at = date('Y-m-d H:i:s');
+            }
+            else {
+                $model->reported_at = "";
+            }
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -173,10 +197,44 @@ class ResidentController extends Controller
         $id = $_POST['id'];
         $status = $_POST['status'];
         $model = Resident::findOne($id);
-        $model->status = 1 - $status;
+        if ($status == $model->status){
+            $model->status = 1 - $status;
+        }
+
+        $model->reported_at = "";
         $model->save();
+//        return true;
         return $this->redirect(['index']);
 
+    }
+
+    public function deleteLocation($locations){
+        foreach ($locations as $key => $value){
+//            var_dump($value->id);
+            $location = Location::findOne($value->id);
+            $location->delete();
+        }
+    }
+
+    public function actionRemark(){
+        $id = $_POST['id'];
+//        $id = 1;
+        $remark = $_POST['remark'];
+        $status = $_POST['status'];
+        $model = Resident::findOne($id);
+        if ($status == $model->status){
+            $model->status = 1 - $status;
+        }
+        $locations  = ($model->locations);
+        $this->deleteLocation($locations);
+//        var_dump($locations);
+
+        $model->remark = $remark;
+//        $model->status = 1 - $status;
+        $model->reported_at = date('Y-m-d H:i:s');
+        $model->save();
+        return $this->redirect(['index']);
+//        return true;
     }
 
     /**

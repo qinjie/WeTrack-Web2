@@ -59,19 +59,20 @@ return [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'enableStrictParsing' => true,
+//            'enableStrictParsing' => true,
             'showScriptName' => false,
             // Add URL Rules for API
             'rules' => [
                 # API for ActiveRecords
                 ['class' => 'yii\rest\UrlRule', 'pluralize' => false,
-                    'controller' => ['v1/user', 'v1/location-history'],
+                    'controller' => ['v1/user', 'v1/location-history', 'v1/device-token'],
                 ],
                 ['class' => 'yii\rest\UrlRule', 'pluralize' => false,
                     'controller' => 'v1/resident',
                     'extraPatterns' => [
                         'GET search' => 'search',
-                        'GET missing' => 'missing'
+                        'GET missing' => 'missing',
+                        'POST status' => 'status'
                     ],
                     'tokens' => [
                         # Keep 'id' for default CRUD action

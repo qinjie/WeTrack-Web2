@@ -68,7 +68,7 @@ class UserController extends Controller
     public function actionView($id)
     {
         $query = User::find()->where(['id' => $id])->one();
-        if ($query['role'] >= Yii::$app->user->identity->role){
+        if ($query['role'] > Yii::$app->user->identity->role){
             throw new UserException("You can't see user who have role equal or greater than you");
         }
         return $this->render('view', [
@@ -81,18 +81,18 @@ class UserController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-//    public function actionCreate()
-//    {
-//        $model = new User();
-//
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        } else {
-//            return $this->render('create', [
-//                'model' => $model,
-//            ]);
-//        }
-//    }
+    public function actionCreate()
+    {
+        $model = new User();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
 
     /**
      * Updates an existing User model.

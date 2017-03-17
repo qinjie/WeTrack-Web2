@@ -36,7 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'nric',
             'image_path:ntext',
             'thumbnail_path:ntext',
-//            'status',
+            [
+//                'attribute' =>  'hide_photo',
+                'label' => 'Image display',
+                'format' => 'raw',
+                'attribute' => function($data){
+                    return Html::encode(($data->hide_photo == 1) ?  "No" : "Yes");
+                },
+            ],
             [
 //                'attribute' => 'status',
                 'label' => 'Status',
@@ -47,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ],
             'created_at',
+            'reported_at',
             'remark',
         ],
     ]) ?>
@@ -85,6 +93,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
 
             ],
+            'uuid',
+            'major',
+            'minor',
             [
                 'attribute' => 'status',
                 'label' => 'Status',
@@ -98,8 +109,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <?php if ($model->status == 1) {?>
     <h1><?= Html::encode("Last Location") ?></h1>
-    <?= GridView::widget([
+    <?=  GridView::widget([
         'dataProvider' => $dataProvider,
 //        'filterModel' => $searchModel,
         'columns' => [
@@ -119,6 +131,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    <?php
+    }
+    ?>
+
 
 
 </div>

@@ -14,7 +14,28 @@ class Resident extends \common\models\Resident
 
     public function fields()
     {
-        $fields = parent::fields();
+        $fields = [
+            'id',
+            'fullname',
+            'dob',
+            'nric',
+            'status',
+            'created_at',
+            'reported_at',
+            'remark',
+            'hide_photo',
+            'image_path' => function(){
+                if ($this->hide_photo) return "";
+                return $this->image_path;
+            },
+            'thumbnail_path' => function(){
+                if ($this->hide_photo) return "";
+                return $this->thumbnail_path;
+            }
+
+        ];
+
+//        $fields = parent::fields();
         return $fields;
     }
 }

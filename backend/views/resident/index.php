@@ -14,6 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php
+        $residents = [];
+        $beacons = \common\models\Resident::find()->all();
+        foreach ($beacons as $value => $item){
+    //                echo $item->id . " -- " . $item->resident->fullname . "\n";
+            $residents[$item->fullname] = $item->fullname;
+        }
+    ?>
 
     <p>
         <?= Html::a('Create Resident', ['create'], ['class' => 'btn btn-success']) ?>
@@ -24,8 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'fullname',
+//            'id',
+
+            [
+                'attribute' => 'fullname',
+                'filter' => Html::activeDropDownList($searchModel, 'fullname', $residents,['class'=>'form-control','prompt' => "Select Resident's Name"]),
+            ],
             'dob',
             'nric',
             [
@@ -42,42 +54,86 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     ;
                     return $s;
-                    return ($data->status == 1) ? "Missing" : "Available";
+//                    return ($data->status == 1) ? "Missing" : "Available";
 
                 },
             ],
-//            'image_path:ntext',
-            // 'thumbnail_path:ntext',
-//             'status',
-//            [
-//                'attribute' => 'status',
-//                'value' => function($data){
-//                    return ($data->status == 1) ? "Yes" : "No";
-//
-//                },
-//
-//            ],
 
              'created_at',
-//            [
-//                'filterType' => GridView::FILTER_DATE_RANGE,
-//                'filterWidgetOptions' => [
-//                    'options' => ['placeholder' => 'Select date'],
-//                    'pluginOptions' => [
-//                        'format' => 'M-dd-yyyy',
-//                        'todayHighlight' => true
-//                    ]
-//                ],
-//                'group' => true,
-//                'format' => 'html'
-//            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Remark</h4>
+            </div>
+            <div class="modal-body">
+                <label><b>Other informations</b></label>
+                <textarea id="remark" class="form-control" rows="5" placeholder="Please provide more informations like last seen date/time, last seen location, last dress,..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info" data-dismiss="modal" onclick="getRemark()">Report Missing</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<?php
+
+
+?>
+<?php
+$script = <<< JS
+
+    // $(function()
+    // {
+    //
+    // $('#myBtn').click(function ()
+    //             {
+    //                     $('#modal').modal('show')
+    //                     .find('#modalContent')
+    //                     .load($(this).attr('value'));
+    //                 });
+    //
+    // });
+
+JS;
+$this->registerJs($script);
+?>
 <script>
+    function getRemark(){
+        var resident = $("#remark").data("resident");
+        var status = $("#remark").data("status");
+        var remark = $('#remark').val();
+        $.ajax({
+            url: '../resident/remark',
+            type: 'post',
+            data: {
+                id: resident,
+                remark: remark,
+                status: status
+            },
+            success: function (data) {
+//                alert(data);
+            },
+            error: function(jqXHR, errMsg) {
+                // handle error
+//                flag = false;
+//                alert(errMsg + $status + jqXHR.status);
+            }
+        });
+    }
+
     var flag = false;
+
     function handleClick(cb) {
         if (flag) return;
         flag = true;
@@ -86,21 +142,44 @@ $this->params['breadcrumbs'][] = $this->title;
         //alert(cb.checked);
         var form = $(this);
         $status = (cb.checked)? 0: 1;
-        $.ajax({
-            url: '../resident/save',
-            type: 'post',
-            data: {
-                id: cb.id,
-                status: $status
-            },
-            success: function (data) {
-//                alert(data);
-            },
-            error: function(jqXHR, errMsg) {
-                // handle error
-                flag = false;
-//                alert(errMsg + $status + jqXHR.status);
+        if ($status == 0){
+            $('#myModal #remark').attr("data-resident", cb.id);
+            $('#myModal #remark').attr("data-status", $status);
+            $('#myModal').modal({
+                    show: true,
+                    backdrop: 'static'
+
             }
-        });
+            );
+
+//            if (!$('#myModal').hasClass('in')) {
+//                // if modal is not shown/visible then do something
+//                location.reload();
+//            }
+
+        }
+        else {
+
+
+            $.ajax({
+                url: '../resident/save',
+                type: 'post',
+                data: {
+                    id: cb.id,
+                    status: $status
+                },
+                success: function (data) {
+//                alert(data);
+                },
+                error: function (jqXHR, errMsg) {
+                    // handle error
+                    flag = false;
+//                alert(errMsg + $status + jqXHR.status);
+                }
+            });
+
+        }
+
     }
+
 </script>

@@ -632,7 +632,8 @@ a:link {
 ============================================================ */
 input.cmn-toggle-yes-no + label {
     padding: 2px;
-    width: 120px;
+    /*min-width: 100px;*/
+    /*width: 12%;*/
     height: 60px;
 }
 input.cmn-toggle-yes-no + label:before, input.cmn-toggle-yes-no + label:after {
@@ -697,8 +698,9 @@ input.cmn-toggle-yes-no:checked + label:after {
     height: 90px;
     padding: 0;
     /*margin: 10px 0 0 8px;*/
-    background: #000000;
-    /*border: 2px solid #444;*/
+    background: #deddda;
+
+    border: 1px solid #444 !important;
     -moz-border-radius: 12px;
     -webkit-border-radius: 12px;
     border-radius: 3px;
@@ -715,8 +717,8 @@ input.cmn-toggle-yes-no:checked + label:after {
     /*left: -3px;*/
 }
 .profile:hover {
-    background: rgba(255, 255, 255, 0.05);
-    
+    background: rgb(250, 252, 253);
+
 }
 .profile h2 {
     width: 265px;
@@ -818,6 +820,24 @@ td img{
 }
 
 iframe{
-    display: block;
-    margin: 0 auto;
+    /*display: block;*/
+    /*margin: 0 auto;*/
+    /*position: fixed;*/
+    /*top: 325px;*/
+    /*right: 10px;*/
+}
+
+.fix {
+    position: static;
+    /**position: relative; !*ie7*!*/
+    /*margin-left: -100px;*/
+    /*width: 100px;*/
+}
+div .scroll {
+    /*width: 150px;*/
+    max-height: 450px;
+    /*overflow-x: scroll;*/
+}
+.tableDashboard, th, td {
+    padding: 0px 0px 0px 0px;
 }

@@ -73,7 +73,7 @@ class LocationHistorySearch extends LocationHistory
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
             'address' => $this->address,
-            'created_at' => $this->created_at,
+            'DATE(`created_at`)' => ($this->created_at),
         ]);
 
         return $dataProvider;

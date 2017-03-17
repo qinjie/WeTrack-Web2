@@ -87,7 +87,7 @@ class LocationHistoryController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $key_api = 'AIzaSyCUg5fQzFfExjTI10jrB6vOBQYMW7cGFoA';
+        $key_api = Yii::$app->params['google_geocoding_key'];
         $key = "AIzaSyA13kujZA51OzrcdJOyOngtPG13xxKsA1U";
         $request_url  = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" . $model->latitude . "," . $model->longitude . "&key=" . $key_api;
         $url = "https://www.google.com/maps/place/" . $model->latitude . "," . $model->longitude;

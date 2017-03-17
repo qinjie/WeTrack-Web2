@@ -66,8 +66,13 @@ class LocatorController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $key = "AIzaSyA13kujZA51OzrcdJOyOngtPG13xxKsA1U";
+        $place = "https://www.google.com/maps/embed/v1/place?key=" .$key . htmlspecialchars ('&').  'q='
+            . $model->latitude . "," . $model->longitude . "&zoom=18";
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'place' => $place,
+            'model' => $model,
         ]);
     }
 

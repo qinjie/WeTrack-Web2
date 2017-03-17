@@ -25,7 +25,7 @@ class LocationHistory extends \common\models\LocationHistory
     {
         // Get address from reverse geo-coding
         // To be remove if can do it in seperate thread in afterSave() method
-        $this->address = Utils::getAddressFromGPS($this->latitude, $this->longitude);
+//        if (!$this->address) $this->address = Utils::getAddressFromGPS($this->latitude, $this->longitude);
         return parent::beforeSave($insert);
     }
 

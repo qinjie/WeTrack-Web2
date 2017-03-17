@@ -27,12 +27,13 @@ use api\common\models\LoginModel;
 
 class UserController extends CustomActiveController
 {
+    public $modelClass = 'api\common\models\User';
     public function behaviors() {
         $behaviors = parent::behaviors();
 
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['login'],
+            'except' => ['login', 'login-email'],
         ];
 
         $behaviors['access'] = [
@@ -42,7 +43,7 @@ class UserController extends CustomActiveController
             ],
             'rules' => [
                 [
-                    'actions' => ['login'],
+                    'actions' => ['login', 'login-email'],
                     'allow' => true,
                     'roles' => ['?'],
                 ],
@@ -81,19 +82,68 @@ class UserController extends CustomActiveController
                 UserToken::deleteAll(['user_id' => $user->id]);
                 $token = TokenHelper::createUserToken($user->id);
                 return [
+                    'result' => "correct",
                     'user_id' => $user->id,
                     'username' => $user->username,
                     'email' => $user->email,
                     'token' => $token->token,
+                    'role' => $user->role
                 ];
-            } else throw new BadRequestHttpException(null);
+            } else
+                return [
+                    "result"=> "wrong"
+                ];
         } else {
-            if (isset($model->errors['username']))
-                throw new BadRequestHttpException(null);
-            if (isset($model->errors['password']))
-                throw new BadRequestHttpException(null);
+            return [
+                "result"=> "wrong"
+            ];
+//            if (isset($model->errors['username']))
+//                throw new BadRequestHttpException(null);
+//            if (isset($model->errors['password']))
+//                throw new BadRequestHttpException(null);
         }
-        throw new BadRequestHttpException('Invalid data');
+//        throw new BadRequestHttpException('Invalid data');
+    }
+
+    public function actionLoginEmail(){
+        $request = Yii::$app->request;
+        $bodyParams = $request->bodyParams;
+        $email = $bodyParams['email'];
+        $model = User::findOne(['email' => $email]);
+//        return is_null($model);
+//        $loginModel = new LoginModel();
+//        $loginModel->username = $model->username;
+//        $loginModel = $model->password;
+//        return ($loginModel->username);
+//        if ($user = $loginModel->login()) {
+        if(($model)){
+            $user = $model;
+
+            if ($user->status == User::STATUS_ACTIVE) {
+                UserToken::deleteAll(['user_id' => $user->id]);
+                $token = TokenHelper::createUserToken($user->id);
+                return [
+                    'result' => "correct",
+                    'user_id' => $user->id,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'token' => $token->token,
+                    'role' => $user->role
+                ];
+            }
+//            else throw new BadRequestHttpException(null);
+            else
+                return [
+                "result"=> "wrong"
+            ];
+        } else {
+            return [
+                "result"=> "wrong"
+            ];
+//            throw new BadRequestHttpException('Invalid data');
+//            return null;
+        }
+//        throw new BadRequestHttpException('Invalid data');
     }
 
     public function actionLogout(){

@@ -31,10 +31,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'location_name:ntext',
             'location_subname:ntext',
+            'serial_number:ntext',
             'longitude',
             'latitude',
             'created_at',
         ],
     ]) ?>
+    <?php
+    echo '<iframe
+        width="800"
+        height="500"
+        frameborder="0" style="border:0"
+        src=' . $place . ' allowfullscreen>
+        </iframe>'
+    ?>
 
 </div>

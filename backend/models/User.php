@@ -44,7 +44,8 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username'], 'required'],
-            [['role', 'status', 'allowance', 'timestamp', 'created_at', 'updated_at'], 'integer'],
+            [['role', 'status', 'allowance', 'timestamp'], 'integer'],
+            [['created_at', 'updated_at'],'safe'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'email_confirm_token'], 'string', 'max' => 255],
             [['auth_key', 'access_token'], 'string', 'max' => 32],
         ];
@@ -75,13 +76,6 @@ class User extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFloorManagers()
-    {
-        return $this->hasMany(FloorManager::className(), ['userid' => 'id']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -96,16 +90,20 @@ class User extends \yii\db\ActiveRecord
      */
     public function getRoleName()
     {
-        if ($this->role == 20) return 'Manager';
-        if ($this->role == 30) return 'Admin';
-        if ($this->role == 40) return 'Master';
-        return 'User';
+        switch ($this->role) {
+            case 2: return 'Raspberry Pi';
+            case 5: return 'Anonymous';
+            case 10: return 'Volunteer';
+            case 20: return 'Family';
+            case 40: return 'Admin';
+        }
     }
 
     public function getStatusName(){
         if ($this->status == 0) return "Deleted";
         if ($this->status == 1) return "Blocked";
         if ($this->status == 5) return "Wait";
+        if ($this->status == -1) return "Crashed";
         return "Active";
     }
 

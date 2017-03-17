@@ -14,12 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <p>
+        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
     <?php
-    $roleArray = [];
-    if (Yii::$app->user->identity->role >= 20) $roleArray += [10 => 'User'];
-    if (Yii::$app->user->identity->role >= 30) $roleArray += [20 => 'Manager'];
-    if (Yii::$app->user->identity->role >= 40) $roleArray += [30 => 'Admin'];
+        $roleArray = [];
+        if (Yii::$app->user->identity->role >= 20) $roleArray += [10 => 'Volunteer'];
+        if (Yii::$app->user->identity->role >= 30) $roleArray += [20 => 'Family'];
+        if (Yii::$app->user->identity->role >= 40) $roleArray += [40 => 'Admin'];
     ?>
 
     <?= GridView::widget([
@@ -29,7 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'username',
+
+            [
+                'attribute'=>'username',
+                'value'=>function ($data){
+                    if ($data->role == 5) return "Anonymous " . $data->id;
+                    if ($data->role == 2) return "Raspberry " . $data->id;
+                    return $data->username;
+                }
+            ],
             // 'auth_key',
             // 'password_hash',
             // 'access_token',
@@ -38,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'status',
                 'value'=>'statusName',
-                'filter'=>array(0 => 'Deleted', 1 => 'Blocked', 5 => 'Waiting', 10 => 'Active'),
+//                'filter'=>[0 => 'Deleted', 10 => 'Active'],
             ],
             [
                 'attribute'=>'role',
