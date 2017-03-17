@@ -53,7 +53,7 @@ if __name__ == "__main__":
                         if (dt[1] == user_id):
                             registration_id = dt[2]
                             message_title = "We Track"
-                            message_body = "Do you want to change status of " + str(resident_name) + "?"
+                            message_body = str(resident_name) + " has been changed to available. Click here to modify"
 			    data_message={
 					'data': message_body,
 					'id': resident_id
