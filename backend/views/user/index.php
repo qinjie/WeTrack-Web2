@@ -31,7 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'username',
+
+            [
+                'attribute'=>'username',
+                'value'=>function ($data){
+                    if ($data->role == 5) return "Anonymous " . $data->id;
+                    if ($data->role == 2) return "Raspberry " . $data->id;
+                    return $data->username;
+                }
+            ],
             // 'auth_key',
             // 'password_hash',
             // 'access_token',
@@ -40,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'status',
                 'value'=>'statusName',
-                'filter'=>array(0 => 'Deleted', 1 => 'Blocked', 5 => 'Waiting', 10 => 'Active'),
+//                'filter'=>[0 => 'Deleted', 10 => 'Active'],
             ],
             [
                 'attribute'=>'role',

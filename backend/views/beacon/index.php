@@ -29,6 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Resident Name',
                 'attribute' => 'resident_id',
+                'filter' => Html::activeDropDownList($searchModel, 'resident_id', \yii\helpers\ArrayHelper::map(\common\models\Resident::find()->asArray()->all(), 'id', 'fullname')
+                    ,['class'=>'form-control','prompt' => 'Select Resident Name']),
 //                'value' => 'resident.fullname',
                 'format' => 'html',
                 'value' => function($model){
@@ -43,13 +45,13 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'format' => 'raw',
-                'filter' => Html::activeDropDownList($searchModel, 'status',[1 => 'Active', 0 => 'Non-Active'],['class'=>'form-control','prompt' => 'Select Status']),
+                'filter' => Html::activeDropDownList($searchModel, 'status',[1 => 'Active', 0 => 'Inactive'],['class'=>'form-control','prompt' => 'Select Status']),
                 'value' => function($data){
                     $d = ($data->status == 1) ? "checked" : "";
                     $s =
                         '<div class="switch">
                         <input id="' . $data->id . '"class="cmn-toggle cmn-toggle-yes-no" onclick="handleClick(this)" type="checkbox" '. $d .'>
-                        <label for="' . $data->id . '"data-on="Active" data-off="Non-Active"></label>
+                        <label for="' . $data->id . '"data-on="Active" data-off="Inactive"></label>
                      </div>'
 
                     ;

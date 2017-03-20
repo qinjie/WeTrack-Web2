@@ -11,10 +11,18 @@ use yii\widgets\ActiveForm;
 <div class="locator-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?php
+        if ($model->isNewRecord) {
+            $model->longitude = 103.76672568321226;
+            $model->latitude = 1.3171514018711383;
+        }
+    ?>
 
     <?= $form->field($model, 'location_name')->textInput() ?>
 
     <?= $form->field($model, 'location_subname')->textInput() ?>
+
+    <?= $form->field($model, 'serial_number')->textInput() ?>
 
     <?= $form->field($model, 'longitude')->textInput() ?>
 
@@ -147,7 +155,7 @@ use yii\widgets\ActiveForm;
     <div id="info"></div>
     <b>Closest matching address:</b>
     <div id="address"></div>
-   
+
 </div>
 
 

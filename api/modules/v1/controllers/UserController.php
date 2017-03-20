@@ -87,6 +87,7 @@ class UserController extends CustomActiveController
                     'username' => $user->username,
                     'email' => $user->email,
                     'token' => $token->token,
+                    'role' => $user->role
                 ];
             } else
                 return [
@@ -127,6 +128,7 @@ class UserController extends CustomActiveController
                     'username' => $user->username,
                     'email' => $user->email,
                     'token' => $token->token,
+                    'role' => $user->role
                 ];
             }
 //            else throw new BadRequestHttpException(null);

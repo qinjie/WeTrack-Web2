@@ -14,6 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php
+        $residents = [];
+        $beacons = \common\models\Resident::find()->all();
+        foreach ($beacons as $value => $item){
+    //                echo $item->id . " -- " . $item->resident->fullname . "\n";
+            $residents[$item->fullname] = $item->fullname;
+        }
+    ?>
 
     <p>
         <?= Html::a('Create Resident', ['create'], ['class' => 'btn btn-success']) ?>
@@ -25,7 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-            'fullname',
+
+            [
+                'attribute' => 'fullname',
+                'filter' => Html::activeDropDownList($searchModel, 'fullname', $residents,['class'=>'form-control','prompt' => "Select Resident's Name"]),
+            ],
             'dob',
             'nric',
             [

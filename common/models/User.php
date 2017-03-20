@@ -39,9 +39,12 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_BLOCKED = 1;
     const STATUS_WAIT = 5;
     const STATUS_ACTIVE = 10;
+    const STATUS_CRASHED = -1;
 
-    public static $roles = [40 => 'admin', 30 => 'admin', 20 => 'family', 10 => 'Volunteer'];
+    public static $roles = [40 => 'admin', 30 => 'admin', 20 => 'family', 10 => 'Volunteer', 5 => 'anonymous', 2 => 'Raspberry Pi'];
 
+    const ROLE_RPI = 2;
+    const ROLE_ANONYMOUS = 5;
     const ROLE_USER = 10;
     const ROLE_MANAGER = 20;
     const ROLE_ADMIN = 30;
@@ -94,6 +97,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'integer'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
+            ['phone_number', 'integer']
         ];
     }
 
@@ -107,6 +111,7 @@ class User extends ActiveRecord implements IdentityInterface
             'created_at' => 'Created',
             'updated_at' => 'Updated',
             'username' => 'Username',
+            'phone_number' => 'Phone Number',
             'email' => 'Email',
             'status' => 'Status',
         ];
@@ -123,7 +128,9 @@ class User extends ActiveRecord implements IdentityInterface
             self::STATUS_DELETED => 'Deleted',
             self::STATUS_BLOCKED => 'Blocked',
             self::STATUS_ACTIVE => ' Active',
-            self::STATUS_WAIT => 'Pending Confirmation',];
+            self::STATUS_WAIT => 'Pending Confirmation',
+            self::STATUS_CRASHED => 'Crashed',
+        ];
     }
 
     /**

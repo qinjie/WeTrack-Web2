@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $location_name
  * @property string $location_subname
+ * @property string $serial_number
  * @property double $longitude
  * @property double $latitude
  * @property string $created_at
@@ -33,8 +34,8 @@ class Locator extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['location_name', 'location_subname', 'longitude', 'latitude'], 'required'],
-            [['location_name', 'location_subname'], 'string'],
+            [['location_name', 'location_subname', 'serial_number', 'longitude', 'latitude'], 'required'],
+            [['location_name', 'location_subname', 'serial_number'], 'string'],
             [['longitude', 'latitude'], 'number'],
             [['created_at'], 'safe'],
         ];
@@ -49,6 +50,7 @@ class Locator extends \yii\db\ActiveRecord
             'id' => 'ID',
             'location_name' => 'Location Name',
             'location_subname' => 'Location Subname',
+            'serial_number' => 'Serial Number',
             'longitude' => 'Longitude',
             'latitude' => 'Latitude',
             'created_at' => 'Created At',

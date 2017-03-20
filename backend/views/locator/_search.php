@@ -21,9 +21,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'location_subname') ?>
 
+    <?= $form->field($model, 'serial_number') ?>
+
     <?= $form->field($model, 'longitude') ?>
 
-    <?= $form->field($model, 'latitude') ?>
+    <?php // echo $form->field($model, 'latitude') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

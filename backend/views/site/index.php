@@ -11,6 +11,7 @@ $this->title = 'We Track';
 
     .container {
         height: 100% ;
+        display: table;
     }
 </style>
 <div class="jumbotron">
@@ -34,7 +35,7 @@ $this->title = 'We Track';
 </div>
 <div class="row">
     <div class="col-lg-4 col-xs-8">
-        <a href="../web/resident/index?ResidentSearch[status]=1">
+        <a href="../web/resident/show-missing">
             <div class="small-box bg-blue">
                 <div class="inner">
                     <h3><?php echo $missing; ?></h3>

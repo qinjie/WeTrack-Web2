@@ -197,7 +197,10 @@ class ResidentController extends Controller
         $id = $_POST['id'];
         $status = $_POST['status'];
         $model = Resident::findOne($id);
-        $model->status = 1 - $status;
+        if ($status == $model->status){
+            $model->status = 1 - $status;
+        }
+
         $model->reported_at = "";
         $model->save();
 //        return true;
@@ -219,12 +222,15 @@ class ResidentController extends Controller
         $remark = $_POST['remark'];
         $status = $_POST['status'];
         $model = Resident::findOne($id);
+        if ($status == $model->status){
+            $model->status = 1 - $status;
+        }
         $locations  = ($model->locations);
         $this->deleteLocation($locations);
 //        var_dump($locations);
 
         $model->remark = $remark;
-        $model->status = 1 - $status;
+//        $model->status = 1 - $status;
         $model->reported_at = date('Y-m-d H:i:s');
         $model->save();
         return $this->redirect(['index']);

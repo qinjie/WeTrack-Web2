@@ -5,8 +5,14 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
-
-$this->title = $model->username;
+switch ($model->role) {
+    case 5: $this->title  = "Anonymous " . $model->id;
+        break;
+    case 2: $this->title  = "Raspberry " . $model->id;
+        break;
+    default:
+        $this->title = $model->username;
+}
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -33,33 +39,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'email:email',
             'email_confirm_token:email',
             'roleName',
+            'phone_number',
             'statusName',
-            'allowance',
-            'timestamp:datetime',
+//            'allowance',
+//            'timestamp:datetime',
             'created_at',
             'updated_at',
         ],
     ]) ?>
 
-<!--    <div align="center">-->
-<!--        <table class="tableFloorMap">-->
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    Thumbnail-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    Image-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    <img src="../../web/--><?php //echo $model->thumbnail_path; ?><!--">-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <img src="../../web/--><?php //echo $model->file_path; ?><!--">-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        </table>-->
-<!--    </div>-->
+
 
 </div>
