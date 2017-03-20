@@ -47,19 +47,19 @@ if __name__ == "__main__":
             for user in user_resident_table :
                 if (user[2] == resident_id) :
                     user_id = user[1]
-		    if (user_id == 80) : 
-			continue
+
                     for dt in device_token_table:
                         if (dt[1] == user_id):
                             registration_id = dt[2]
                             message_title = "We Track"
                             message_body = "Do you want to change status of " + str(resident_name) + "?"
-			    data_message={
-					'data': message_body,
-					'id': resident_id
-				}
-     	           	    result = push_service.notify_single_device(registration_id=registration_id,
+                            data_message = {
+                                            'data': message_body,
+                                            'id': resident_id
+                            }
+                            result = push_service.notify_single_device(registration_id=registration_id,
                                                                        data_message=data_message)
+
                             #result = push_service.notify_single_device(registration_id=registration_id,
                              #                                          message_title=message_title,
                               #                                         message_body=message_body)

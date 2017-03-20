@@ -4,7 +4,7 @@ import datetime
 _host = 'localhost'
 _user = ''
 _password = ''
-_databse = 'test'
+_database = 'test'
 
 def updateData(cursor, id) :
     sql = 'UPDATE user ' \
@@ -17,7 +17,7 @@ if __name__ == '__main__' :
     connection = pymysql.connect(host=_host,
                                  user=_user,
                                  password=_password,
-                                 database=_databse)
+                                 database=_database)
     cursor = connection.cursor()
 
     sql = 'SELECT user.id, user.role, user.updated_at FROM user'
