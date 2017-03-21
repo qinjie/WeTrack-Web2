@@ -30,3 +30,12 @@ Add following configuration
 ```
 */60 * * * * python /var/www/html/WeTrack/pyfcm/Server/Check_status_RPI/main.py >/dev/null 2>&1
 ```
+### Register a raspberry pi:
+1. Go to http://128.199.93.67/WeTrack/backend/web/locator/index
+2. Click to Create Locator button
+3. Get serial number of Raspberry Pi 3 by run this command line
+``` 
+cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2 
+```
+4. Fill information to all fields
+
