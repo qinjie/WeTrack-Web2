@@ -94,6 +94,11 @@ class UserController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->mailer->compose(['html' => 'emailConfirm-html', 'text' => 'emailConfirm-text'], ['user' => $model])
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
+                ->setTo($model->email)
+                ->setSubject('Welcome to ' . \Yii::$app->name)
+                ->send();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

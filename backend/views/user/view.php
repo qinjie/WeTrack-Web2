@@ -49,50 +49,50 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
         ],
     ]) ?>
-    <h2><?= Html::encode("Relatives")?></h2>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'user.username',
-            [
-                'label' => 'Resident Name',
-                'attribute' => 'resident_id',
-                'format' => 'html',
-                'value' => function($model){
-                    return Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->resident->id]);
-                }
-            ],
-            'relation',
-            'created_at',
+    <?php if ($model->role > \api\common\models\User::ROLE_ANONYMOUS) { ?>
+        <h2><?= Html::encode("Relatives") ?></h2>
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'user.username',
+                [
+                    'label' => 'Resident Name',
+                    'attribute' => 'resident_id',
+                    'format' => 'html',
+                    'value' => function ($model) {
+                        return Html::a($model->resident->fullname, ['/resident/view', 'id' => $model->resident->id]);
+                    }
+                ],
+                'relation',
+                'created_at',
 
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'header' => 'Action',
-                'template' => '{update}  {delete}',
-                'buttons' => [
-                    'delete' => function ($url, $model) {
-                        $url = \yii\helpers\Url::to(['user-resident/delete', 'id' => $model->id]);
-//                        return Html::a('<span class="fa fa-eye"></span>', $url, ['title' => 'view']);
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-                            'title' => Yii::t('yii', 'Delete'),
-                            'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
-                            'data-method' => 'post',
-                        ]);
-                    },
-                    'update' => function ($url, $model) {
-                        $url = \yii\helpers\Url::to(['user-resident/update', 'id' => $model->id]);
-//                        return Html::a('<span class="fa fa-eye"></span>', $url, ['title' => 'view']);
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
-                            'title' => Yii::t('yii', 'Update'),
-                            'data-method' => 'post',
-                        ]);
-                    },
-                ]
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'header' => 'Action',
+                    'template' => '{update}  {delete}',
+                    'buttons' => [
+                        'delete' => function ($url, $model) {
+                            $url = \yii\helpers\Url::to(['user-resident/delete', 'id' => $model->id]);
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                'title' => Yii::t('yii', 'Delete'),
+                                'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
+                                'data-method' => 'post',
+                            ]);
+                        },
+                        'update' => function ($url, $model) {
+                            $url = \yii\helpers\Url::to(['user-resident/update', 'id' => $model->id]);
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                                'title' => Yii::t('yii', 'Update'),
+                                'data-method' => 'post',
+                            ]);
+                        },
+                    ]
 
+                ],
             ],
-        ],
-    ]);
-    ?>
-    <?=Html::a('Add relative', ['user-resident/create'],['class' => 'btn btn-success'])?>
+        ]);
+
+    Html::a('Add relative', ['user-resident/create','id' => $model->id],['class' => 'btn btn-success']);
+    }?>
 </div>

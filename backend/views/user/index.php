@@ -19,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?php
         $roleArray = [];
-        if (Yii::$app->user->identity->role >= 20) $roleArray += [10 => 'Volunteer'];
-        if (Yii::$app->user->identity->role >= 30) $roleArray += [20 => 'Family'];
+        if (Yii::$app->user->identity->role >= 5) $roleArray += [5 => 'Volunteer'];
+        if (Yii::$app->user->identity->role >= 20) $roleArray += [20 => 'Family'];
         if (Yii::$app->user->identity->role >= 40) $roleArray += [40 => 'Admin'];
     ?>
 

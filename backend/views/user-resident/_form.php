@@ -13,7 +13,10 @@ use common\models\Resident;
 
 <div class="user-resident-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php
+        $form = ActiveForm::begin();
+        if (!empty($id))$model->user_id = $id;
+    ?>
 
     <?= $form->field($model, 'user_id')->dropDownList(
         ArrayHelper::map(\common\models\User::find()->where(['>', 'role', \api\common\models\User::ROLE_ANONYMOUS])->all(), 'id', 'username')

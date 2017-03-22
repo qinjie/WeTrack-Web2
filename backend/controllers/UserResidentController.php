@@ -76,7 +76,7 @@ class UserResidentController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id = 1)
     {
         $model = new UserResident();
 
@@ -85,6 +85,7 @@ class UserResidentController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
+                'id' => $id,
                 'model' => $model,
             ]);
         }
