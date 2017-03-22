@@ -3,10 +3,12 @@
 namespace backend\controllers;
 
 use common\components\AccessRule;
+use common\models\UserResident;
 use Yii;
 use backend\models\User;
 use backend\models\UserSearch;
 use yii\base\UserException;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -71,8 +73,14 @@ class UserController extends Controller
         if ($query['role'] > Yii::$app->user->identity->role){
             throw new UserException("You can't see user who have role equal or greater than you");
         }
+        $relatives = UserResident::find()->where(['user_id' => $id]);
+        $relation = new ActiveDataProvider([
+            'query' => $relatives,
+            'pagination' => false
+        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $relation
         ]);
     }
 

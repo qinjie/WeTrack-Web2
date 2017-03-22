@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\UserResident */
 
-$this->title = 'Create User Resident';
+$this->title = 'Create relationship';
 $this->params['breadcrumbs'][] = ['label' => 'Relations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

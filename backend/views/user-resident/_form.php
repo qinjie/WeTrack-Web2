@@ -16,7 +16,7 @@ use common\models\Resident;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'user_id')->dropDownList(
-        ArrayHelper::map(\common\models\User::find()->all(), 'id', 'username')
+        ArrayHelper::map(\common\models\User::find()->where(['>', 'role', \api\common\models\User::ROLE_ANONYMOUS])->all(), 'id', 'username')
     )->label("Username")
     ?>
 

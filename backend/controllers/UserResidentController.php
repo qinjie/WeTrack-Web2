@@ -81,6 +81,7 @@ class UserResidentController extends Controller
         $model = new UserResident();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['/user/view', 'id' => $model->user_id]);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -100,6 +101,7 @@ class UserResidentController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['/user/view', 'id' => $model->user_id]);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -116,7 +118,9 @@ class UserResidentController extends Controller
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
         $this->findModel($id)->delete();
+        return $this->redirect(['/user/view', 'id' => $model->user_id]);
 
         return $this->redirect(['index']);
     }
