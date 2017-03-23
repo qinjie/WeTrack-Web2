@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
         ],
     ]) ?>
-    <?php if ($model->role > \api\common\models\User::ROLE_ANONYMOUS) { ?>
+    <?php if ($model->role > \common\models\User::ROLE_ANONYMOUS) { ?>
         <h2><?= Html::encode("Relatives") ?></h2>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
@@ -93,6 +93,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
 
-    Html::a('Add relative', ['user-resident/create','id' => $model->id],['class' => 'btn btn-success']);
-    }?>
+        echo Html::a('Add relative', ['user-resident/create','id' => $model->id],['class' => 'btn btn-success']);
+
+    }
+    if ($model->role == \common\models\User::ROLE_RPI && (!empty($locator))) {
+        echo Html::a('Show locator', ['locator/view','id' => $locator->id],['class' => 'btn btn-success']);
+    }
+    ?>
+
 </div>

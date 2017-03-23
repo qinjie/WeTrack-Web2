@@ -4,10 +4,9 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\UserResident */
-
-$this->title = 'Update User Resident: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'User Residents', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->title = 'Update relationship';
+//$this->params['breadcrumbs'][] = ['label' => 'Relations', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="user-resident-update">

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\components\AccessRule;
+use common\models\Locator;
 use common\models\UserResident;
 use Yii;
 use backend\models\User;
@@ -70,6 +71,7 @@ class UserController extends Controller
     public function actionView($id)
     {
         $query = User::find()->where(['id' => $id])->one();
+        $model = $this->findModel($id);
         if ($query['role'] > Yii::$app->user->identity->role){
             throw new UserException("You can't see user who have role equal or greater than you");
         }
@@ -78,9 +80,13 @@ class UserController extends Controller
             'query' => $relatives,
             'pagination' => false
         ]);
+        $locator = "";
+        if ($model->role == \common\models\User::ROLE_RPI) $locator = Locator::find()->where(['serial_number' => $model->username])->one();
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $relation
+            'model' => $model,
+            'dataProvider' => $relation,
+            'locator' => $locator
         ]);
     }
 
