@@ -34,6 +34,7 @@ class UserResident extends \yii\db\ActiveRecord
         return [
             [['user_id', 'resident_id', 'relation'], 'required'],
             [['user_id', 'resident_id'], 'integer'],
+            [['user_id', 'resident_id'], 'unique', 'targetAttribute' => ['user_id', 'resident_id'], 'message' => 'The relationship of this User and Resident has already been taken.'],
             [['relation'], 'string'],
             [['created_at'], 'safe'],
             [['resident_id'], 'exist', 'skipOnError' => true, 'targetClass' => Resident::className(), 'targetAttribute' => ['resident_id' => 'id']],
