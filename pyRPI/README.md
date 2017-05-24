@@ -14,28 +14,26 @@ Python application has reponsibility to monitor nearby  Beacons, if it belongs t
 2.	Recommend to go to Desktop;
 3.	Install library for those python library: requests, python-bluez, json, bluetooth (If need);
 4.	Run: git clone https://github.com/qinjie/WeTrack-Web2;
-5.	Go to: WeTrack-Web2\pyRPI;
+5.	Go to: WeTrack-Web2\RPI;
 6.  Run: ```python main.py``` or ```python3 main.py```.
 
-### Crontab Setup
-Run ```sudo crontab -e```
 
-Add following configuration
+### Install Bluez software on RPi
+```Reference https://learn.adafruit.com/install-bluez-on-the-raspberry-pi/installation```
+
 ```
-*/1 * * * * python /var/www/html/WeTrack/pyfcm/Server/Find_userID/main.py >/dev/null 2>&1
+wget  wget http://www.kernel.org/pub/linux/bluetooth/bluez-5.45.tar.xz
+tar xvf bluez-5.45.tar.xz
+cd bluez-5.45/
+sudo apt-get update
+sudo apt-get install -y libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev libical-dev libreadline-dev
 ```
-```
-*/10 * * * * python /var/www/html/WeTrack/pyfcm/Server/MissingNotice/main.py >/dev/null 2>&1
-```
-```
-*/60 * * * * python /var/www/html/WeTrack/pyfcm/Server/Check_status_RPI/main.py >/dev/null 2>&1
-```
-### Register a raspberry pi:
-1. Go to http://128.199.93.67/WeTrack/backend/web/locator/index
-2. Click to Create Locator button
-3. Get serial number of Raspberry Pi 3 by run this command line
-``` 
-cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2 
-```
-4. Fill information to all fields
+
+sudo apt-get update
+sudo apt-get install bluetooth
+sudo apt-get install bluez
+sudo apt-get install python-bluez
+
+### Reference
+    http://www.instructables.com/id/iBeacon-Entry-System-with-the-Raspberry-Pi-and-Azu/
 
