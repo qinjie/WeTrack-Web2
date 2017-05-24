@@ -1,0 +1,4 @@
+requests
+python-bluez
+json
+bluetooth

@@ -1,0 +1,5 @@
+
+
+
+# Scan for beacons 5 minutes after reboot
+@reboot (sleep 5m; cd /home/pi/project-beacon/ || exit 1; sudo /usr/bin/python /home/pi/project-beacon/main.py &)
