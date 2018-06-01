@@ -1,39 +1,50 @@
 <?php
+
 namespace common\models;
 
 use common\components\TokenHelper;
 use common\models\query\UserQuery;
+use Symfony\Component\CssSelector\Parser\Token;
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\db\Expression;
-use yii\filters\RateLimitInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\IdentityInterface;
 use yii\web\Link;
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
+use yii\filters\RateLimitInterface;
 use yii\web\Linkable;
-
-/** Reference: http://www.elisdn.ru/blog/65/seo-service-on-yii2-moving-users-into-db */
+use yii\db\ActiveRecord;
+use fedemotta\awssdk;
 
 /**
- * User model
+ * This is the model class for table "user".
  *
- * @property integer $id
+ * @property string $id
  * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
  * @property string $email
- * @property string $email_confirm_token
  * @property string $auth_key
- * @property integer $role
+ * @property string $password_hash
+ * @property string $access_token
+ * @property string $password_reset_token
+ * @property string $email_confirm_token
+ * @property string $phone_number
+ * @property string $role
  * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $password write-only password
+ * @property string $allowance
+ * @property string $timestamp
+ * @property string $created_at
+ * @property string $updated_at
+ *
+ * @property Caregiver[] $caregivers
+ * @property DeviceToken[] $deviceTokens
+ * @property Location[] $locations
+ * @property LocationHistory[] $locationHistories
+ * @property Missing[] $missings
+ * @property Usertoken[] $usertokens
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_BLOCKED = 1;
@@ -49,7 +60,6 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_MANAGER = 20;
     const ROLE_ADMIN = 30;
     const ROLE_MASTER = 40;
-
     public $password;
 
     /**
@@ -57,12 +67,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-        return '{{%user}}';
+        return 'user';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -83,21 +90,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['username', 'required', 'message' => 'Please enter an username.'],
-//            ['username', 'match', 'pattern' => '#^[\w_-]+$#i', 'message' => 'Invalid username. Only alphanumeric characters are allowed.'],
-            ['username', 'unique', 'targetClass' => self::className(), 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255, 'message' => 'Min 2 characters; Max 255 characters.'],
-
-//            ['email', 'required', 'message' => 'Please enter an email.'],
-            ['email', 'email', 'message' => 'Invalid email address.'],
-            ['email', 'unique', 'targetClass' => self::className(), 'message' => 'This email address has already been taken.'],
-            ['email', 'string', 'max' => 255, 'message' => 'Max 255 characters.'],
-            ['email', 'filter', 'filter' => 'trim'],
-            
-            ['status', 'integer'],
+            ['username', 'required', 'message' => 'Please enter a username.'],
+            ['username', 'unique'],
+            [['role', 'status', 'allowance', 'timestamp'], 'integer'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
-            ['phone_number', 'integer']
+            [['created_at', 'updated_at'], 'safe'],
+            [['username'], 'string', 'max' => 50],
+            [['email', 'password_hash', 'password_reset_token', 'email_confirm_token'], 'string', 'max' => 255],
+            [['auth_key', 'access_token'], 'string', 'max' => 32],
+            [['phone_number'], 'string', 'max' => 20],
+            ['email', 'unique', 'targetClass' => self::className(), 'message' => 'This email address has already been taken.'],
+            // the email attribute should be a valid email address
+            ['email', 'email'],
+            ['email', 'filter', 'filter' => 'trim'],
         ];
     }
 
@@ -108,125 +114,93 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'created_at' => 'Created',
-            'updated_at' => 'Updated',
             'username' => 'Username',
-            'phone_number' => 'Phone Number',
             'email' => 'Email',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'access_token' => 'Access Token',
+            'password_reset_token' => 'Password Reset Token',
+            'email_confirm_token' => 'Email Confirm Token',
+            'phone_number' => 'Phone Number',
+            'role' => 'Role',
             'status' => 'Status',
+            'allowance' => 'Allowance',
+            'timestamp' => 'Timestamp',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 
     public function getStatusName()
     {
-        return ArrayHelper:: getValue(self:: getStatusesArray(), $this->status);
+        return ArrayHelper::getValue(self::getStatusesArray(), $this-> status);
     }
 
     public static function getStatusesArray()
     {
         return [
             self::STATUS_DELETED => 'Deleted',
+            self::STATUS_ACTIVE => 'Active',
             self::STATUS_BLOCKED => 'Blocked',
-            self::STATUS_ACTIVE => ' Active',
             self::STATUS_WAIT => 'Pending Confirmation',
             self::STATUS_CRASHED => 'Crashed',
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public
-    static function findIdentity($id)
+    public static function findIdentity($id)
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
-    /**
-     * @inheritdoc
-     */
-//    public static function findIdentityByAccessToken($token, $type = null)
-//    {
-//        # throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-//        return static::findOne(['access_token' => $token]);
-//    }
-
-# Customize using TokenHelper class
-    public
-    static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken($token, $type = null)
     {
         $id = TokenHelper::authenticateToken($token, true);
-        if ($id) {
+        if ($id){
             return static::findIdentity($id);
-//            $user = \app\models\User::find($id);
-//            return $user;
-        } else {
+        }else{
             return null;
         }
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @param string $status
-     * @return static|null
-     */
-    public
-    static function findByUsername($username, $status = NULL)
+    public static function findByUsername($username, $status = NULL)
     {
         if (!$status) $status = self::STATUS_ACTIVE;
         return static::findOne(['username' => $username, 'status' => $status]);
     }
 
-    public
-    static function findByEmail($email, $status = NULL)
+    public static function findByEmail($email, $status = NULL)
     {
         if (!$status) $status = self::STATUS_ACTIVE;
         return static::findOne(['email' => $email, 'status' => $status]);
     }
 
-    public
-    static function existsUsername($username)
+    public static function existsUsername($username)
     {
         return static::find()->where(['username' => $username])->exists();
     }
 
-    public
-    static function existsEmail($email)
+    public static function existsEmail($email)
     {
         return static::find()->where(['email' => $email])->exists();
     }
 
-    /**
-     * Finds user by password reset token
-     *
-     * @param string $token password reset token
-     * @return static|null
-     */
-    public
-    static function findByPasswordResetToken($token)
+    public static function findByPasswordResetToken($token)
     {
-        if (!static::isPasswordResetTokenValid($token)) {
+        if (!static::isPasswordResetTokenValid($token)){
             return null;
         }
 
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
+        return static::findOne(
+            [
+                'password_reset_token' => $token,
+                'status' => self::STATUS_ACTIVE,
+            ]
+        );
     }
 
-    /**
-     * Finds out if password reset token is valid
-     *
-     * @param string $token password reset token
-     * @return boolean
-     */
-    public
-    static function isPasswordResetTokenValid($token)
+    public static function isPasswordResetTokenValid($token)
     {
-        if (empty($token)) {
+        if (empty($token)){
             return false;
         }
 
@@ -236,141 +210,89 @@ class User extends ActiveRecord implements IdentityInterface
         return $timestamp + $expire >= time();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public
-    function getId()
+    public function getId()
     {
         return $this->getPrimaryKey();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public
-    function getAuthKey()
+    public function getAuthKey()
     {
         return $this->auth_key;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public
-    function validateAuthKey($authKey)
+    public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
     }
 
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public
-    function validatePassword($password)
+    public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 
-    /**
-     * Generates password hash from password and sets it to the model
-     *
-     * @param string $password
-     */
-    public
-    function setPassword($password)
-    {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
-    }
-
-    /**
-     * Generates "remember me" authentication key
-     */
-    public
-    function generateAuthKey()
+    public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
-    /**
-     * Generates new password reset token
-     */
-    public
-    function generatePasswordResetToken()
+    public function generatePasswordResetToken()
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-    /**
-     * Removes password reset token
-     */
-    public
-    function removePasswordResetToken()
+    public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
     }
 
-    public
-    function fields()
+    public function fields()
     {
         $fields = parent::fields();
         unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token'],
-            $fields['updated_at'], $fields['created_at']);
+    $fields['updated_at'], $fields['created_at']);
         return $fields;
     }
-
-# For HATEOAS
-    public
-    function getLinks()
+    #For HATEOAS
+    public function getLinks()
     {
         return [
             Link::REL_SELF => Url::to(['user/view', 'id' => $this->id], true),
         ];
     }
 
-    public
-    function beforeSave($insert)
+    public function beforeSave($insert)
     {
         if (isset($this->password))
             $this->setPassword($this->password);
-        if (parent::beforeSave($insert)) {
-            if ($insert) {
+        if (parent::beforeSave($insert)){
+            if ($insert)
                 $this->generateAuthKey();
-            }
             return true;
         }
         return false;
     }
 
+    #To add the error message when unknown attributes are received.
 
-## To add the error message when unknown attributes are received.
-
-    public
-    function onUnsafeAttribute($name, $value)
+    public function onUnsafeAttribute($name, $value)
     {
         parent::onUnsafeAttribute($name, $value);
 
         $this->addError(
             $name,
-            Yii::t('app', 'Unknown parameter `{name}`', ['name' => $name])
+            Yii::t('app','Unknown parameter `{name}`', ['name' => $name])
         );
     }
 
-    public
-    function clearErrors($attribute = null)
+    public function clearErrors($attribute = null)
     {
-        if (!$attribute || !isset($this->attributes[$attribute])) {
+        if (!$attribute || !isset($this->attributes[$attribute]))
             return;
-        }
 
-        parent::clearErrors($attribute);
+        parent::clearErrors($attribute); // TODO: Change the autogenerated stub
     }
 
-## Implementation for RateLimitInterface
-
+    #Implementation for RateLimitInterface
     /**
      * Returns the maximum number of allowed requests and the window size.
      * @param \yii\web\Request $request the current request
@@ -419,56 +341,77 @@ class User extends ActiveRecord implements IdentityInterface
         $this->save(false, ['allowance', 'timestamp']);
     }
 
-## Define Relationships
-
-    public
-    function getUserTokens()
-    {
-        return $this->hasMany(UserToken::className(), ['userId' => 'id']);
-    }
-
-    /**
-     * @param string $email_confirm_token
-     * @return static|null
-     */
-    public
-    static function findByEmailConfirmToken($email_confirm_token)
+    public static function findByEmailConfirmToken($email_confirm_token)
     {
         return static::findOne(['email_confirm_token' => $email_confirm_token, 'status' => self::STATUS_WAIT]);
     }
 
-    /**
-     * Generates email confirmation token
-     */
-    public
-    function generateEmailConfirmToken()
+    public function generateEmailConfirmToken()
     {
         $this->email_confirm_token = Yii::$app->security->generateRandomString();
     }
 
-    /**
-     * Removes email confirmation token
-     */
-    public
-    function removeEmailConfirmToken()
+    public function removeEmailConfirmToken()
     {
         $this->email_confirm_token = null;
     }
 
-    public
-    function afterSave($insert, $changedAttributes)
+    public function afterSave($insert, $changedAttributes)
     {
         $this->refresh();
-        parent::afterSave($insert, $changedAttributes);
+        parent::afterSave($insert, $changedAttributes); // TODO: Change the autogenerated stub
     }
 
-    /**
-     * @return UserQuery
-     */
-    public
-    static function find()
+    public static function find()
     {
         return new UserQuery(get_called_class());
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCaregivers()
+    {
+        return $this->hasMany(Caregiver::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDeviceTokens()
+    {
+        return $this->hasMany(DeviceToken::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocations()
+    {
+        return $this->hasMany(Location::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocationHistories()
+    {
+        return $this->hasMany(LocationHistory::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMissings()
+    {
+        return $this->hasMany(Missing::className(), ['reported_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsertokens()
+    {
+        return $this->hasMany(Usertoken::className(), ['user_id' => 'id']);
+    }
 }

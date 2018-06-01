@@ -17,17 +17,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'location_name') ?>
+    <?= $form->field($model, 'serial') ?>
 
-    <?= $form->field($model, 'location_subname') ?>
+    <?= $form->field($model, 'label') ?>
 
-    <?= $form->field($model, 'serial_number') ?>
+    <?= $form->field($model, 'remark') ?>
 
     <?= $form->field($model, 'longitude') ?>
 
     <?php // echo $form->field($model, 'latitude') ?>
 
+    <?php // echo $form->field($model, 'gps_id') ?>
+
     <?php // echo $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

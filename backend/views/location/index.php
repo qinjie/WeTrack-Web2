@@ -26,10 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'beacon_id',
+            'resident_id',
+            'missing_id',
             'locator_id',
-            'user_id',
-            'longitude',
+            // 'user_id',
+            // 'longitude',
             // 'latitude',
+            // 'address',
+            // 'gps_id',
             // 'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],

@@ -15,26 +15,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?php
-        $data = [];
-        $users = \common\models\User::find()->all();
-        foreach ($users as $value => $item){
+    $data = [];
+    $users = \common\models\User::find()->all();
+    foreach ($users as $value => $item){
 //            echo $item->id . " -- " . $item->username . "\n";
-            switch ($item->role){
-                case 2: $data[$item->id] = "Raspberry " . $item->id;
-                    break;
-                case 5: $data[$item->id] = "Anonymous " . $item->id;
-                    break;
-                default:
-                    $data[$item->id] = $item->username;
-            }
+        switch ($item->role){
+            case 2: $data[$item->id] = "Raspberry " . $item->id;
+                break;
+            case 5: $data[$item->id] = "Anonymous " . $item->id;
+                break;
+            default:
+                $data[$item->id] = $item->username;
         }
-        $residents = [];
-        $beacons = \common\models\Beacon::find()->all();
-        foreach ($beacons as $value => $item){
+    }
+    $residents = [];
+    $beacons = \common\models\Beacon::find()->all();
+    foreach ($beacons as $value => $item){
 //                echo $item->id . " -- " . $item->resident->fullname . "\n";
-            $residents[$item->id] = $item->resident->fullname;
-        }
-//        var_dump($users);
+        $residents[$item->id] = $item->resident->fullname;
+    }
+    //        var_dump($users);
     ?>
 
     <?= GridView::widget([

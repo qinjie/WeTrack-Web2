@@ -13,6 +13,7 @@ use api\common\models\Resident;
 use api\components\CustomActiveController;
 use common\components\AccessRule;
 use common\models\User;
+use common\models\Missing;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBearerAuth;
@@ -81,16 +82,16 @@ class ResidentController extends CustomActiveController
         $id =$request->getBodyParam('id');
         $remark = $request->getBodyParam('remark');
         $hidden_photo = $request->getBodyParam('isHiddenPhoto');
-        $model = Resident::findOne($id);
+        $model = Missing::findOne(['resident_id' => $id]);
         $model->status = 1 - $model->status;
         if ($remark) $model->remark = $remark;
         if (!is_null($hidden_photo)) $model->hide_photo = $hidden_photo;
         $this->deleteLocation($model->locations);
         if ($model->status == 1) {
-            $model->reported_at = date('Y-m-d H:i:s');
+            $model->created_at = date('Y-m-d H:i:s');
         }
         else {
-            $model->reported_at = "";
+            $model->created_at = "";
         }
         $model->save();
         return $model;

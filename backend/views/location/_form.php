@@ -12,15 +12,23 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'beacon_id')->textInput() ?>
+    <?= $form->field($model, 'beacon_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'locator_id')->textInput() ?>
+    <?= $form->field($model, 'resident_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    <?= $form->field($model, 'missing_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'longitude')->textInput() ?>
+    <?= $form->field($model, 'locator_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'latitude')->textInput() ?>
+    <?= $form->field($model, 'user_id')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'longitude')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'latitude')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'gps_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'created_at')->textInput() ?>
 

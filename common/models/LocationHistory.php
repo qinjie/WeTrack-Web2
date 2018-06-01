@@ -7,15 +7,20 @@ use Yii;
 /**
  * This is the model class for table "location_history".
  *
- * @property integer $id
- * @property integer $beacon_id
- * @property integer $locator_id
- * @property integer $user_id
- * @property double $longitude
- * @property double $latitude
- * @property double $address
+ * @property string $id
+ * @property string $beacon_id
+ * @property string $resident_id
+ * @property string $missing_id
+ * @property string $locator_id
+ * @property string $user_id
+ * @property string $longitude
+ * @property string $latitude
  * @property string $created_at
- * *
+ *
+ * @property Beacon $beacon
+ * @property Locator $locator
+ * @property User $user
+ * @property Missing $missing
  * @property Resident $resident
  */
 class LocationHistory extends \yii\db\ActiveRecord
@@ -34,10 +39,15 @@ class LocationHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['beacon_id', 'user_id', 'longitude', 'latitude'], 'required'],
-            [['beacon_id', 'locator_id', 'user_id'], 'integer'],
+            [['beacon_id', 'longitude', 'latitude'], 'required'],
+            [['beacon_id', 'resident_id', 'missing_id', 'locator_id', 'user_id'], 'integer'],
             [['longitude', 'latitude'], 'number'],
-            [['address', 'created_at'], 'safe'],
+            [['created_at'], 'safe'],
+            [['beacon_id'], 'exist', 'skipOnError' => true, 'targetClass' => Beacon::className(), 'targetAttribute' => ['beacon_id' => 'id']],
+            [['locator_id'], 'exist', 'skipOnError' => true, 'targetClass' => Locator::className(), 'targetAttribute' => ['locator_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['missing_id'], 'exist', 'skipOnError' => true, 'targetClass' => Missing::className(), 'targetAttribute' => ['missing_id' => 'id']],
+            [['resident_id'], 'exist', 'skipOnError' => true, 'targetClass' => Resident::className(), 'targetAttribute' => ['resident_id' => 'id']],
         ];
     }
 
@@ -49,11 +59,12 @@ class LocationHistory extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'beacon_id' => 'Beacon ID',
+            'resident_id' => 'Resident ID',
+            'missing_id' => 'Missing ID',
             'locator_id' => 'Locator ID',
             'user_id' => 'User ID',
             'longitude' => 'Longitude',
             'latitude' => 'Latitude',
-            'address' => 'Address',
             'created_at' => 'Created At',
         ];
     }
@@ -63,9 +74,9 @@ class LocationHistory extends \yii\db\ActiveRecord
      */
     public function getBeacon()
     {
-
         return $this->hasOne(Beacon::className(), ['id' => 'beacon_id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -73,11 +84,28 @@ class LocationHistory extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Locator::className(), ['id' => 'locator_id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMissing()
+    {
+        return $this->hasOne(Missing::className(), ['id' => 'missing_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getResident()
+    {
+        return $this->hasOne(Resident::className(), ['id' => 'resident_id']);
     }
 }

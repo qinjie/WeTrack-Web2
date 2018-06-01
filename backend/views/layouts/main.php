@@ -1,10 +1,11 @@
-<input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
-<link rel="shortcut icon" href="../../web/favicon.ico" type="icon" />
-<link rel="shortcut icon" href="../web/favicon.ico" type="icon" />
+<input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
+<link rel="shortcut icon" href="../../web/favicon.ico" type="icon"/>
+<link rel="shortcut icon" href="../web/favicon.ico" type="icon"/>
 
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use backend\assets\AppAsset;
@@ -42,32 +43,17 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems = [
-            [
-                'label' => 'Residents',
-
-                'items' => [
-                    ['label' => 'All Residents',
-                        'url' => ['/resident/index'],
-                    ],
-                    ['label' => 'Missing Residents',
-                        'url' => ['/resident/show-missing'],
-                    ],
-                    ['label' => 'Resident Relative',
-                        'url' => ['/user-resident/index'],
-                    ],
-
-                ],
-
-            ],
+            ['label' => 'Residents', 'url' => ['/resident/index']],
+//            ['label' => 'Missing Residents', 'url' => ['/resident/show-missing']],
+            ['label' => 'Relatives', 'url' => ['/relative/index']],
+            ['label' => 'Caregiving', 'url' => ['/caregiver/index']],
             ['label' => 'Beacons', 'url' => ['/beacon/index']],
             ['label' => 'Location History', 'url' => ['/location-history/index']],
-            ['label' => 'Users',
-                'url' => ['/user/index'],
-            ],
+            ['label' => 'Users', 'url' => ['/user/index']],
             ['label' => 'Locators', 'url' => ['/locator/index']],
         ];
         $menuItems[] = [
-            'label' => Yii::$app->user->identity->username ,
+            'label' => Yii::$app->user->identity->username,
             'items' => [
                 ['label' => 'Account',
                     'url' => ['site/account'],

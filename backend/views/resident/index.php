@@ -15,12 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?php
-        $residents = [];
-        $beacons = \common\models\Resident::find()->all();
-        foreach ($beacons as $value => $item){
-    //                echo $item->id . " -- " . $item->resident->fullname . "\n";
-            $residents[$item->fullname] = $item->fullname;
-        }
+    $residents = [];
+    $beacons = \common\models\Resident::find()->all();
+    foreach ($beacons as $value => $item){
+        //                echo $item->id . " -- " . $item->resident->fullname . "\n";
+        $residents[$item->fullname] = $item->fullname;
+    }
     ?>
 
     <p>
@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
 
-             'created_at',
+            'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
@@ -149,7 +149,7 @@ $this->registerJs($script);
                     show: true,
                     backdrop: 'static'
 
-            }
+                }
             );
 
 //            if (!$('#myModal').hasClass('in')) {

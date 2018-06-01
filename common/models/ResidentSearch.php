@@ -18,8 +18,8 @@ class ResidentSearch extends Resident
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['fullname', 'dob', 'nric', 'image_path', 'thumbnail_path', 'created_at'], 'safe'],
+            [['id', 'hide_photo', 'status'], 'integer'],
+            [['fullname', 'dob', 'nric', 'image_path', 'thumbnail_path', 'remark', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -61,8 +61,10 @@ class ResidentSearch extends Resident
         $query->andFilterWhere([
             'id' => $this->id,
             'dob' => $this->dob,
+            #'hide_photo' => $this->hide_photo,
             'status' => $this->status,
             'created_at' => $this->created_at,
+            #'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'fullname', $this->fullname])
@@ -71,7 +73,8 @@ class ResidentSearch extends Resident
             ->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'dob', $this->dob])
             ->andFilterWhere(['like', 'created_at', $this->created_at])
-            ->andFilterWhere(['like', 'thumbnail_path', $this->thumbnail_path]);
+            ->andFilterWhere(['like', 'thumbnail_path', $this->thumbnail_path])
+            ->andFilterWhere(['like', 'remark', $this->remark]);
 
         return $dataProvider;
     }

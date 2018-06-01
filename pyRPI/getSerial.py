@@ -13,5 +13,5 @@ def getserial():
   return cpuserial
 
 if __name__ == '__main__' :
-    print getserial()
+    getserial()
   

@@ -21,7 +21,6 @@ class Resident extends \common\models\Resident
             'nric',
             'status',
             'created_at',
-            'reported_at',
             'remark',
             'hide_photo',
             'image_path' => function(){

@@ -2,7 +2,7 @@
 defined('YII_DEBUG') or define('YII_DEBUG',true );
 /* @var $this yii\web\View */
 
-$this->title = 'We Track';
+$this->title = 'Elderly Track';
 ?>
 <style>
     .wrap {
@@ -27,7 +27,7 @@ $this->title = 'We Track';
                             border-radius: 0px;
                         ">
 <!--                    <img src="../web/icon.png">-->
-                    We Track
+                    Elderly Track
                 </h1>
             </td>
         </tr>

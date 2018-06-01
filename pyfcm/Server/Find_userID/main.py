@@ -63,7 +63,7 @@ if __name__ == "__main__":
             for dt in device_token :
                 if (dt[1] == user_id) :
                     registration_id = dt[2]
-                    message_title = "We Track"
+                    message_title = "Elderly Track"
                     for reID in list :
                         for aa in resident_table :
                             if (aa[0] == reID) :

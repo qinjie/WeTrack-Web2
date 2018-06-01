@@ -93,10 +93,10 @@ class LocationHistoryController extends Controller
         $url = "https://www.google.com/maps/place/" . $model->latitude . "," . $model->longitude;
         $place = "https://www.google.com/maps/embed/v1/place?key=" .$key . htmlspecialchars ('&').  'q='
             . $model->latitude . "," . $model->longitude . "&zoom=18";
-        $address = $this->getAddress($request_url);
+        //$address = $this->getAddress($request_url);
         return $this->render('view', [
             'model' => $model,
-            'address' => $address,
+            //'address' => $address,
             'place' => $place,
             'url' => $url
         ]);

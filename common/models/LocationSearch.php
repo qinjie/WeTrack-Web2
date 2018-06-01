@@ -18,7 +18,7 @@ class LocationSearch extends Location
     public function rules()
     {
         return [
-            [['id', 'beacon_id', 'locator_id', 'user_id'], 'integer'],
+            [['id', 'beacon_id', 'resident_id', 'missing_id', 'locator_id', 'user_id'], 'integer'],
             [['longitude', 'latitude'], 'number'],
             [['address', 'created_at'], 'safe'],
         ];
@@ -62,13 +62,16 @@ class LocationSearch extends Location
         $query->andFilterWhere([
             'id' => $this->id,
             'beacon_id' => $this->beacon_id,
+            'resident_id' => $this->resident_id,
+            'missing_id' => $this->missing_id,
             'locator_id' => $this->locator_id,
             'user_id' => $this->user_id,
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
-            'address' => $this->address,
             'created_at' => $this->created_at,
         ]);
+
+        $query->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

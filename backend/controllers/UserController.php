@@ -2,19 +2,22 @@
 
 namespace backend\controllers;
 
-use common\components\AccessRule;
-use common\models\Locator;
-use common\models\UserResident;
+use Aws\Iam\IamClient;
 use Yii;
-use backend\models\User;
-use backend\models\UserSearch;
-use yii\base\UserException;
-use yii\data\ActiveDataProvider;
-use yii\filters\AccessControl;
+use common\models\User;
+use common\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\components\AccessRule;
+use common\models\Locator;
+use common\models\Caregiver;
+use yii\base\UserException;
+use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
+use Aws\AwsClient;
+use Aws\Exception\AwsException;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -105,6 +108,12 @@ class UserController extends Controller
                 ->setTo($model->email)
                 ->setSubject('Welcome to ' . \Yii::$app->name)
                 ->send();
+            $client = new IamClient([
+                'profile' => 'default',
+                'region' => 'ap-southeast-1',
+                'version' => '2010-05-08'
+            ]);
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

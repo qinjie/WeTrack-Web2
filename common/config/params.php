@@ -1,5 +1,4 @@
 <?php
-
 return [
     'google_geocoding_key' => 'AIzaSyA2KyH3j6ZvwAEQZ3m1Xtl0MFCP_c2Uzuk',
     'adminEmail' => 'eceiot.np@gmail.com',

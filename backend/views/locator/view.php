@@ -29,21 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'location_name:ntext',
-            'location_subname:ntext',
-            'serial_number:ntext',
+            'serial',
+            'label',
+            'remark',
             'longitude',
             'latitude',
+            'gps_id',
             'created_at',
+            'updated_at',
         ],
     ]) ?>
-    <?php
-    echo '<iframe
-        width="800"
-        height="500"
-        frameborder="0" style="border:0"
-        src=' . $place . ' allowfullscreen>
-        </iframe>'
-    ?>
 
 </div>

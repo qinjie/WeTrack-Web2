@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Beacon */
 
-$this->title = "Beacon [" . str_pad($model->id, 3, '0', STR_PAD_LEFT)  . "]";
+$this->title = "Beacon [" . str_pad($model->id, 3, '0', STR_PAD_LEFT) . "]";
 $this->params['breadcrumbs'][] = ['label' => 'Beacons', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -46,23 +46,27 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'status',
             [
                 'label' => 'Status',
-                'attribute' => function($data){
+                'attribute' => function ($data) {
                     return ($data->status == 1) ? "Active" : "Non-Active";
 
                 },
-
             ],
             'created_at',
+            'updated_at',
         ],
     ]) ?>
-    <h1><?= Html::encode("Last location") ?></h1>
+
+    <?php
+
+
+    ?>
+
+    <h1><?= Html::encode("location History") ?></h1>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
 //        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-
             [
                 'label' => 'Resident Name',
                 'attribute' => 'user_id',
@@ -70,21 +74,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($data) {
                     return Html::a($data->beacon->resident->fullname, ['/resident/view', 'id' => $data->beacon->resident->id]);
                 },
-
-
             ],
             'longitude',
             'latitude',
             'created_at',
             [
-//                'label' => 'Resident Name',
-
                 'format' => 'raw',
                 'value' => function ($data) {
                     return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/location-history/view', 'id' => $data->id]);
                 },
-
-
             ],
         ],
     ]); ?>

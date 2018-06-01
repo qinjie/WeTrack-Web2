@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'email:email',
             'email_confirm_token:email',
-            'roleName',
+            #'roleName',
             'phone_number',
             'statusName',
 //            'allowance',

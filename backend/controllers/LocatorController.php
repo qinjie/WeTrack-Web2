@@ -8,8 +8,6 @@ use common\models\LocatorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use common\components\AccessRule;
 
 /**
  * LocatorController implements the CRUD actions for Locator model.
@@ -22,19 +20,6 @@ class LocatorController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'ruleConfig' => [
-                    'class' => AccessRule::className(),
-                ],
-                'rules' => [
-                    [
-                        'actions' => [],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -61,18 +46,13 @@ class LocatorController extends Controller
 
     /**
      * Displays a single Locator model.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $key = "AIzaSyA13kujZA51OzrcdJOyOngtPG13xxKsA1U";
-        $place = "https://www.google.com/maps/embed/v1/place?key=" .$key . htmlspecialchars ('&').  'q='
-            . $model->latitude . "," . $model->longitude . "&zoom=18";
         return $this->render('view', [
-            'place' => $place,
-            'model' => $model,
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -97,7 +77,7 @@ class LocatorController extends Controller
     /**
      * Updates an existing Locator model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -116,7 +96,7 @@ class LocatorController extends Controller
     /**
      * Deletes an existing Locator model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -129,7 +109,7 @@ class LocatorController extends Controller
     /**
      * Finds the Locator model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
+     * @param string $id
      * @return Locator the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

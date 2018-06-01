@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'value' => $address,
                 'format' => 'raw',
                 'value' =>
-                    Html::a($address, $url)
+                    Html::a( $url)
 //                htmlEncode
 
 

@@ -7,8 +7,8 @@ use Yii;
 /**
  * This is the model class for table "device_token".
  *
- * @property integer $id
- * @property integer $user_id
+ * @property string $id
+ * @property string $user_id
  * @property string $token
  * @property string $created_at
  *
@@ -33,8 +33,8 @@ class DeviceToken extends \yii\db\ActiveRecord
             [['user_id'], 'required'],
             [['user_id'], 'integer'],
             [['created_at'], 'safe'],
-            [['token'], 'string', 'max' => 500],
-//            [['token'], 'unique'],
+            [['token'], 'string', 'max' => 32],
+            [['user_id', 'token'], 'unique', 'targetAttribute' => ['user_id', 'token'], 'message' => 'The combination of User ID and Token has already been taken.'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

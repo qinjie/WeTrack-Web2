@@ -18,9 +18,9 @@ class LocationHistorySearch extends LocationHistory
     public function rules()
     {
         return [
-            [['id', 'beacon_id', 'locator_id', 'user_id'], 'integer'],
+            [['id', 'beacon_id', 'resident_id', 'missing_id', 'locator_id', 'user_id'], 'integer'],
             [['longitude', 'latitude'], 'number'],
-            [['address', 'created_at'], 'safe'],
+            [['created_at'], 'safe'],
         ];
     }
 
@@ -48,12 +48,6 @@ class LocationHistorySearch extends LocationHistory
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_DESC,
-                    'id' => SORT_DESC
-                ]
-            ],
         ]);
 
         $this->load($params);
@@ -68,12 +62,13 @@ class LocationHistorySearch extends LocationHistory
         $query->andFilterWhere([
             'id' => $this->id,
             'beacon_id' => $this->beacon_id,
+            'resident_id' => $this->resident_id,
+            'missing_id' => $this->missing_id,
             'locator_id' => $this->locator_id,
             'user_id' => $this->user_id,
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
-            'address' => $this->address,
-            'DATE(`created_at`)' => ($this->created_at),
+            'created_at' => $this->created_at,
         ]);
 
         return $dataProvider;

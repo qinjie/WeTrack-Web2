@@ -73,7 +73,6 @@ class BeaconController extends Controller
         $searchModel = new LocationHistorySearch();
         $query = LocationHistory::find()->where(['beacon_id' => $id])->limit(5);
 
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => false,
@@ -153,7 +152,7 @@ class BeaconController extends Controller
 //            ];
 //        }
 
-            $id = $_POST['id'];
+        $id = $_POST['id'];
         $status = $_POST['status'];
         $model = Beacon::findOne($id);
         $model->status = 1 - $status;

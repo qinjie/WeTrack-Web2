@@ -7,13 +7,16 @@ use Yii;
 /**
  * This is the model class for table "locator".
  *
- * @property integer $id
- * @property string $location_name
- * @property string $location_subname
- * @property string $serial_number
- * @property double $longitude
- * @property double $latitude
+ * @property string $id
+ * @property string $serial
+ * @property string $label
+ * @property string $remark
+ * @property string $address
+ * @property string $postal
+ * @property string $longitude
+ * @property string $latitude
  * @property string $created_at
+ * @property string $updated_at
  *
  * @property Location[] $locations
  * @property LocationHistory[] $locationHistories
@@ -34,10 +37,15 @@ class Locator extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['location_name', 'location_subname', 'serial_number', 'longitude', 'latitude'], 'required'],
-            [['location_name', 'location_subname', 'serial_number'], 'string'],
+            [['serial', 'label'], 'required'],
             [['longitude', 'latitude'], 'number'],
-            [['created_at'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['serial'], 'string', 'max' => 50],
+            [['label'], 'string', 'max' => 100],
+            [['remark'], 'string', 'max' => 500],
+            [['address'], 'string', 'max' => 200],
+            [['postal'], 'string', 'max' => 10],
+            [['serial'], 'unique'],
         ];
     }
 
@@ -48,12 +56,15 @@ class Locator extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'location_name' => 'Location Name',
-            'location_subname' => 'Location Subname',
-            'serial_number' => 'Serial Number',
+            'serial' => 'Serial',
+            'label' => 'Label',
+            'remark' => 'Remark',
+            'address' => 'Address',
+            'postal' => 'Postal',
             'longitude' => 'Longitude',
             'latitude' => 'Latitude',
             'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 

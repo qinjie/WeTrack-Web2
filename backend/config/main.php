@@ -26,6 +26,20 @@ return [
                 'path'=>'/backend/web'  // correct path for the backend app.
             ]
         ],
+//        'user' => [
+//            'class' => 'dektrium\user\Module',
+//            'enableUnconfirmedLogin' => true,
+//            'cost' => 12,
+//            'admins' => ['admin'],
+//            'identityCookie' => [
+//                'name' => '_backendUser', // unique for backend
+//                'path'=>'/backend/web'  // correct path for the backend app.
+//            ]
+//        ],
+//        'awssdk' => [
+//            'class' => 'fedemotta\awssdk\AwsSdk',
+//            'credentials' =>
+//        ],
         'session' => [
             'name' => '_backendSessionId',   //Set name
             'savePath' => __DIR__ . '/../runtime',

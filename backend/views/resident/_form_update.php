@@ -25,18 +25,33 @@ use yii\widgets\ActiveForm;
 
 
     <?= $form->field($model, 'nric')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'file')->widget(\kartik\file\FileInput::className(),
-        [
-            'options' => ['accept' => 'image/*'],
-            'pluginOptions' => [
-                'showUpload' => false,
-                'initialPreview'=> "../../" . $model->image_path,
-                'initialPreviewAsData'=>true,
+    <?php
+    if ($model->isNewRecord) {
+        echo $form->field($model, 'file')->widget(\kartik\file\FileInput::className(),
+            [
+                'options' => ['accept' => 'image/*'],
+                'pluginOptions' => [
+                    'showUpload' => false,
+                    //                'overwriteInitial'=>false,
+                    'maxFileSize'=>2800
+                ]
+            ]);
+    }
+    else {
+        echo $form->field($model, 'file')->widget(\kartik\file\FileInput::className(),
+            [
+                'options' => ['accept' => 'image/*'],
+                'pluginOptions' => [
+                    'showUpload' => false,
+                    'initialPreview'=> "../../" . $model->image_path,
+                    'initialPreviewAsData'=>true,
 //                'overwriteInitial'=>false,
-                'maxFileSize'=>2800
+                    'maxFileSize'=>2800
+                ]
             ]
-        ]
-    ) ?>
+        );
+    }
+    ?>
 
 
     <?php $data = [

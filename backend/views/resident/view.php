@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= DetailView::widget([
         'model' => $model,
+        'formatter' => ['class' => 'yii\i18n\Formatter', 'nullDisplay' => ''],       // hide "(not set)" if value is null
         'attributes' => [
             'id',
             'fullname',
@@ -40,59 +41,35 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'attribute' =>  'hide_photo',
                 'label' => 'Image display',
                 'format' => 'raw',
-                'attribute' => function($data){
-                    return Html::encode(($data->hide_photo == 1) ?  "No" : "Yes");
-                },
+                'value' => $model->getHidePhotoLabel()
+//                'attribute' => function ($data) {
+//                    return Html::encode(($data->hide_photo == 1) ? "No" : "Yes");
             ],
             [
 //                'attribute' => 'status',
                 'label' => 'Status',
                 'format' => 'raw',
-                'attribute' => function($data){
-                    return Html::encode(($data->status == 1) ?  "Missing" : "Available");
-                },
-
+                'value' => $model->getStatusLabel()
+//                'attribute' => function ($data) {
+//                    return Html::encode(($data->status == 1) ? "Missing" : "Available");
+//                },
             ],
-            'created_at',
-            'reported_at',
             'remark',
+            'created_at',
+            'updated_at',
         ],
     ]) ?>
     <div align="center">
-        <table class="tableFloorMap">
-            <tr>
-                <td>
-                    Thumbnail
-                </td>
-                <td>
-                    Image
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <img src="../../web/<?php echo $model->thumbnail_path; ?>">
-                </td>
-                <td>
-                    <img src="../../web/<?php echo $model->image_path; ?>">
-                </td>
-            </tr>
-        </table>
+        <img src="../../web/<?php echo $model->thumbnail_path; ?>">
     </div>
-    <h1><?= Html::encode("Beacons") ?></h1>
+
+    <h1>Beacon List</h1>
     <?= GridView::widget([
         'dataProvider' => $beacons,
 //        'filterModel' => $searchModel,
         'columns' => [
-//            ['class' => 'yii\grid\SerialColumn'],
-
-            [
-                'attribute' => 'id',
-                'format' => 'raw',
-                'value' => function($it){
-                    return Html::a($it->id, ['/beacon/view', 'id' => $it->id]);
-                }
-
-            ],
+            ['class' => 'yii\grid\SerialColumn'],
+//            'id',
             'uuid',
             'major',
             'minor',
@@ -100,41 +77,67 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'status',
                 'label' => 'Status',
                 'format' => 'raw',
-                'value' => function($data){
+                'value' => function ($data) {
                     return Html::encode(($data->status == 1) ? 'Active' : 'Non-Active');
                 },
-
             ],
-
-        ],
-    ]); ?>
-
-    <?php if ($model->status == 1) {?>
-    <h1><?= Html::encode("Last Location") ?></h1>
-    <?=  GridView::widget([
-        'dataProvider' => $dataProvider,
-//        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'beacon_id',
-            'longitude',
-            'latitude',
-            'created_at',
             [
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/location-history/view', 'id' => $data->id]);
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/beacon/view', 'id' => $data->id]);
                 },
-
-
             ],
         ],
     ]); ?>
-    <?php
-    }
-    ?>
 
+    <br>
+    <h1>Caregivers</h1>
+    <?= GridView::widget([
+        'dataProvider' => $caregivers,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'relative.fullname',
+            'relative.phone',
+            'relative.email',
+            'relative.user_id',
+            'relation',
+            [
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/relative/view', 'id' => $data->relative_id]);
+                },
+            ],
+        ],
+    ]); ?>
 
+    <br>
+    <h1>Missing Cases</h1>
+    <?= GridView::widget([
+        'dataProvider' => $missings,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+//            'id',
+            ['attribute' => 'created_at',
+                'label' => 'Date',
+                'value' => function ($data) {
+                    return $data->getReportedDate();
+                },
+            ],
+            'reported_by',
+            ['attribute' => 'status',
+                'label' => 'Status',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return $data->getStatusLabel();
+                },
+            ],
+            [
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/missing/view', 'id' => $data->id]);
+                },
+            ],
+        ],
+    ]); ?>
 
 </div>

@@ -18,8 +18,8 @@ class BeaconSearch extends Beacon
     public function rules()
     {
         return [
-            [['id', 'resident_id', 'major', 'minor', 'status'], 'integer'],
-            [['uuid', 'created_at'], 'safe'],
+            [['id', 'major', 'minor', 'status', 'resident_id'], 'integer'],
+            [['uuid', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 

@@ -19,13 +19,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'beacon_id') ?>
 
+    <?= $form->field($model, 'resident_id') ?>
+
+    <?= $form->field($model, 'missing_id') ?>
+
     <?= $form->field($model, 'locator_id') ?>
 
-    <?= $form->field($model, 'user_id') ?>
+    <?php // echo $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'longitude') ?>
+    <?php // echo $form->field($model, 'longitude') ?>
 
     <?php // echo $form->field($model, 'latitude') ?>
+
+    <?php // echo $form->field($model, 'address') ?>
+
+    <?php // echo $form->field($model, 'gps_id') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

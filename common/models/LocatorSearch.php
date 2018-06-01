@@ -19,7 +19,7 @@ class LocatorSearch extends Locator
     {
         return [
             [['id'], 'integer'],
-            [['location_name', 'location_subname', 'serial_number', 'created_at'], 'safe'],
+            [['serial', 'label', 'remark', 'created_at', 'updated_at'], 'safe'],
             [['longitude', 'latitude'], 'number'],
         ];
     }
@@ -64,11 +64,12 @@ class LocatorSearch extends Locator
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
             'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'location_name', $this->location_name])
-            ->andFilterWhere(['like', 'location_subname', $this->location_subname])
-            ->andFilterWhere(['like', 'serial_number', $this->serial_number]);
+        $query->andFilterWhere(['like', 'serial', $this->serial])
+            ->andFilterWhere(['like', 'label', $this->label])
+            ->andFilterWhere(['like', 'remark', $this->remark]);
 
         return $dataProvider;
     }
